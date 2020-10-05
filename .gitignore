@@ -1,3 +1,6 @@
+# secrets
+config_auth.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

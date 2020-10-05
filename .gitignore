@@ -6,6 +6,10 @@ config_auth.txt
 /webserver/.idea/
 /webserver/.idea
 
+# compiled
+/gameserver/endturn
+/gameserver/gameserver
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

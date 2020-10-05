@@ -1,5 +1,10 @@
 # secrets
 config_auth.txt
+# idea
+./idea/
+./idea
+/webserver/.idea/
+/webserver/.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -49,6 +49,7 @@ async def counter(websocket, path):
         await websocket.send(state_event())
         async for message in websocket:
             data = json.loads(message)
+            print(data)
             new_messsage = data["msg"]
             CHAT_MSG_ARR.append(new_messsage)
             await notify_state()

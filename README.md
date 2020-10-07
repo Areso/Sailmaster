@@ -4,7 +4,7 @@ Client is a single-page application (HTML5, Canvas, vanilla JavaScript), but cou
 There are could be few clients.  
 The server is a two-component application.  
 Webserver handles endpoints, with whom the client is communicate.  
-The webserver application is written in Python (Flask).  
+The webserver application is written in Python (Flask for http calls, asyncio for websockets).  
 Finally, there is a gameserver.  
 The gameserver contains all gamelogic and written in Go (Golang).  
 The game's RDBMS is MySQL for now (for fast prototyping, thanks for phpmyadmin).  

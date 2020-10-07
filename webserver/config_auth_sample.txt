@@ -1,0 +1,5 @@
+localhost
+3306
+sailmaster_db
+sailmaster_user
+sailmaster_pass

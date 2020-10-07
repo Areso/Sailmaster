@@ -1,6 +1,6 @@
 # Sailmaster  
 Sailmaster is a client-server game.
-Client is a single-page application (HTML5, Canvas, vanilla JavaScript), but could be changed at anytime.  
+Client is a SPA or a single-page application (HTML5, Canvas, vanilla JavaScript), but it could be changed at anytime.  
 There are could be few clients.  
 The server is a two-component application.  
 Webserver handles endpoints, with whom the client is communicate.  

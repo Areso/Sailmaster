@@ -10,4 +10,5 @@ Or, you could use local plays
 # Installation of Golang
 		ansible-playbook -i "localhost, " -k -K -e "purge=True" golang.yml  
 		ansible-playbook -K -e "purge=True" local-golang.yml  
-# Installation of Lite IDE (free and open source golang IDE)
+# Installation of Lite IDE*
+Lite ID  is a free and open source golang IDE

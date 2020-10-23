@@ -8,7 +8,10 @@ Please, pay attention, to manage your localhost, your localhost must have sshd i
 		sudo apt install openssh-server  
 Or, you could use local plays.
 # Installation of Golang
-		ansible-playbook -i "localhost, " -k -K -e "purge=True" golang.yml  
-		ansible-playbook -K -e "purge=True" local-golang.yml  
+		ansible-playbook -i "localhost, " -k -K -e "gopurge=True" golang.yml  
+		ansible-playbook -K -e "gopurge=True" local-golang.yml  
 # Installation of Lite IDE*
-Lite ID  is a free and open source golang IDE.
+Lite IDE  is a free and open source golang IDE.  
+For now, it is a manual operation:  
+https://github.com/visualfc/liteide/releases/latest  
+chmod +x  

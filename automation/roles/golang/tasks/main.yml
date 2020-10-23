@@ -1,0 +1,30 @@
+---
+
+- name: uninstall_golang_from_distrib_repo
+  package:
+    name: golang-go
+    state: absent
+  become: True
+  when: gopurge == True
+  tags: 
+    - purge_go
+    - purge_golang
+    - purge
+
+- name: uninstall_gccgo_go_from_distrib_repo
+  package:
+    name: gccgo-go
+    state: absent
+  become: True
+  when: gopurge == True
+  tags:
+    - purge_go
+    - purge_gccgo
+    - purge
+
+- name: install_go_from_snap
+  command: "snap install go --classic"
+  become: True
+  #when: ansible_version.full is version('2.8.0', '>=')
+  tags:
+    - install_go_snap

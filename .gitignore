@@ -5,7 +5,11 @@ config_auth.txt
 ./idea
 /webserver/.idea/
 /webserver/.idea
-
+# ansible
+*.retry
+# temp files
+*.swp
+*.save
 # compiled
 /gameserver/endturn
 /gameserver/gameserver

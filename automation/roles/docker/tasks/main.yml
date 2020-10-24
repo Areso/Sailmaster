@@ -1,0 +1,57 @@
+---
+
+- name: uninstall_docker_from_distrib_repo
+  package:
+    name: 
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+  become: True
+  when: pack_purge == "True"
+  tags: 
+    - purge_docker
+    - purge
+
+- name: install_dependencies
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    state: present
+  become: True
+  tags:
+    - docker_dependencies
+
+- name: install_docker_cert
+  shell: 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
+  become: True
+  warn: False
+  tags:
+    - docker_cert
+
+- name: add_docker_repo_ppa
+  shell: |
+    add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+  become: True
+  tags:
+    - docker_repo
+
+- name: docker_install
+  package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  become: True
+  tags:
+    - docker_install

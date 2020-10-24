@@ -5,5 +5,4 @@
   roles:
     - role: golang
       vars:
-        gopurge: False
-
+        pack_purge: False

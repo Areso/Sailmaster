@@ -1,9 +1,0 @@
----
-- hosts: localhost
-  connection: local
-  gather_facts: True
-  roles:
-    - role: ide
-      vars:
-        purge: False
-

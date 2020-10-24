@@ -5,7 +5,7 @@
     name: golang-go
     state: absent
   become: True
-  when: gopurge == True
+  when: pack_purge == "True"
   tags: 
     - purge_go
     - purge_golang
@@ -16,7 +16,7 @@
     name: gccgo-go
     state: absent
   become: True
-  when: gopurge == True
+  when: pack_purge == "True"
   tags:
     - purge_go
     - purge_gccgo

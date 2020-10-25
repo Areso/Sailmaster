@@ -5,9 +5,11 @@ from flask import Flask, jsonify
 from flask import request
 import mysql.connector
 
-app = Flask(__name__)
 
-#SYNC
+app  = Flask(__name__)
+mydb = {}
+
+
 def myloading():
     cfgpath = "config_auth.txt"
     fconf = open(cfgpath, 'r')
@@ -30,6 +32,15 @@ def opencon(myconfig):
     salt = myconfig[5]
     print("open db connection")
 
+
+@app.route('/api/v1.0/create_acc', methods=['POST', 'OPTIONS'])
+def createAcc():
+	code      = 200
+	stat_msg  = "ok"
+	token     = "abc-123"
+	return {"status": stat_msg, "token": token}, code, {"Access-Control-Allow-Origin": "*",
+                                                        "Content-type": "application/json",
+                                                        "Access-Control-Allow-Methods": "POST"}
 
 if __name__ == "__main__":
     myconfig=myloading()

@@ -10,10 +10,26 @@ include = function (url, fn) {
 function autoLogin () {
   if (localStorage.getItem('sailmaster-acc-key')!==null) {
     //TODO check sessionKey
-    console.log("login with the sailmaster-acc-key");
+    console.log("login with existing token");
   } else {
-    console.log("create a temp account");
+    console.log("create new account");
+    createTempAcc();
   }
+}
+function createTempAcc () {
+  resTempAcc    = null;
+  dataToParse   = "";
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      resTempAcc    = JSON.parse(this.responseText);
+      accToken      = resTempAcc["token"];
+      console.log(accToken);
+    }
+  };
+  xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/create_acc", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(dataToParse);
 }
 function showLoginForm () {
   console.log("show login form");

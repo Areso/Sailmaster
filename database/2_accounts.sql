@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `accounts` (
   `id_acc` int(11) NOT NULL,
   `login` varchar(128) DEFAULT NULL,
+  `token` varchar(128) NOT NULL,
   `password` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `create_date` timestamp NULL DEFAULT NULL,
@@ -45,7 +46,8 @@ CREATE TABLE `accounts` (
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id_acc`),
-  ADD UNIQUE KEY `login` (`login`);
+  ADD UNIQUE KEY `login` (`login`),
+  ADD UNIQUE KEY `token` (`token`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

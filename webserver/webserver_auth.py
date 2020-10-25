@@ -4,7 +4,7 @@ import logging
 from flask import Flask, jsonify
 from flask import request
 import mysql.connector
-
+import uuid
 
 app  = Flask(__name__)
 mydb = {}
@@ -37,7 +37,8 @@ def opencon(myconfig):
 def createAcc():
 	code      = 200
 	stat_msg  = "ok"
-	token     = "abc-123"
+	token     = uuid.uuid4()
+	# check whether the token is uniq in the database
 	return {"status": stat_msg, "token": token}, code, {"Access-Control-Allow-Origin": "*",
                                                         "Content-type": "application/json",
                                                         "Access-Control-Allow-Methods": "POST"}

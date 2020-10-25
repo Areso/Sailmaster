@@ -16,8 +16,8 @@ In the future it will be switched to PostgreSQL.
 The game's has core loop:  
 1) all players interacts with NPC and their ships (sends orders) within the timeframe (30 sec for now);  
 2) the server calculates all orders, battles, movements;  
-3) all players, who currently online, got results from server and the client draws animationl  
-4) go to step 1  
+3) all players, who currently online, got results from server and the client draws animation;  
+4) when animation is done, all players get control on their's characters and could issue new orders once again.  
   
 Usually, when a player logged off, the player's character placed in somewhat 'stasis' and disappear from the game.  
 And appears back only when the player is loggin in.  

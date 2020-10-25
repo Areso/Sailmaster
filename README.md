@@ -19,10 +19,9 @@ The game's has core loop:
 3) all players, who currently online, got results from server and the client draws animation;  
 4) when animation is done, all players get control on their's characters and could issue new orders once again.  
   
-Usually, when a player logged off, the player's character placed in somewhat 'stasis' and disappear from the game.  
-And appears back only when the player is logging in.  
+Usually, when a player logged off, the player's character placed in somewhat 'stasis' and disappear from the game. And appears back only when the player is logging in.  
 In this game, the character is always in the game, disregarding the online/offline state of the player itself.  
-So, without the player attending, the player character becomes somewhat NPC-like, which could do some pre-written actions and somewhat react to external stimuli, based the scenarios to react were written by the player.  
+So, without the player attending, the player character becomes somewhat NPC-like, which could do some pre-written actions and somehow react to external stimuli, based on the scenarios which were written by the player.  
   
 It is Race-vs-Race game. 5 races, 6 fractions.  
 Humans, Elves, Orcs, Undead, Dwarves, Renegades.  

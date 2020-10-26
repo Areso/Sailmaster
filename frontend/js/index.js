@@ -18,7 +18,7 @@ function autoLogin () {
   }
 }
 function loginWithToken () {
-    //
+    window.location.href = "char.html";
 }
 function createTempAcc () {
   resTempAcc    = null;
@@ -42,15 +42,15 @@ function showLoginForm () {
   console.log("show login form");
 }
 //localization
+page = "index";
 include('js/vendor/localization.js',function(){
-  loadStartLocale();
-  console.log('we are in first level include after loadStartLocale()');
+  loadStartLocale(page);
 });
 function reloadLang() {
   var x = document.getElementById("selectLng").selectedIndex;
   var y = document.getElementById("selectLng").options;
   language = y[x].value; //y[x].id, text, index
-  loadLocale(language);
+  loadLocale(language, page);
 }
 function localeCallback(returnLanguage) {
   if (returnLanguage==='en-US') {
@@ -59,6 +59,9 @@ function localeCallback(returnLanguage) {
   if (returnLanguage==='ru-RU') {
     document.getElementById("selectLng").selectedIndex=1;
   }
-  document.getElementById("mmenu-play").innerText = pagelogin.btnPlay;
-  document.getElementById("mmenu-login").innerText = pagelogin.btnLogin;
+  for (key in pageLogin) {
+    if (pageLogin.hasOwnProperty(key)) {
+      document.getElementById(key).innerText=pageLogin[key];
+    }
+  }
 }

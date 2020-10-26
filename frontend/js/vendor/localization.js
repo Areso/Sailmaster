@@ -15,7 +15,7 @@ include = function (url, fn) {
 //document.onload = loadStartLocale();
 //now we need some language for start
 itemName = "sailmaster-lang";
-function loadStartLocale(){
+function loadStartLocale(page){
 		//check whether browser support localStorage
 		isLocalStorageSupport = checkLocalStorageSupport();
 		if (isLocalStorageSupport===true) { //for all modern browsers, including IE8 and newer
@@ -44,9 +44,9 @@ function loadStartLocale(){
 		locales = ['en-US','ru-RU'];
 		default_locale = 'en-US';
 		if (checkValue(language, locales)===1) {
-			loadLocale(language);
+			loadLocale(language, page);
 		} else {
-			loadLocale(default_locale);
+			loadLocale(default_locale, page);
 		}
 	}
 function checkValue(value,arr){
@@ -82,8 +82,8 @@ function checkLocalStorageSupport() {
 			return false;
 		}
 	}
-function loadLocale(language){
-	file = 'languages/'+language+'.js';
+function loadLocale(language, page){
+	file = 'languages/'+page+'-'+language+'.js';
 	include(file,function(){
 		console.log('we are in second level include');
 		localeCallback(language);

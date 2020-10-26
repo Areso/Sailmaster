@@ -5,10 +5,12 @@ from flask import Flask, jsonify
 from flask import request
 import mysql.connector
 import uuid
+import time
 
-app  = Flask(__name__)
-mydb = {}
 
+app      = Flask(__name__)
+mydb     = {}
+accounts = []
 
 def myloading():
     cfgpath = "config_auth.txt"
@@ -35,16 +37,63 @@ def opencon(myconfig):
 
 @app.route('/api/v1.0/create_acc', methods=['POST', 'OPTIONS'])
 def createAcc():
-	code      = 200
-	stat_msg  = "ok"
-	token     = uuid.uuid4()
-	# check whether the token is uniq in the database
-	return {"status": stat_msg, "token": token}, code, {"Access-Control-Allow-Origin": "*",
+    code       = 200
+    stat_msg   = "ok"
+    token_uniq = False
+    # check whether the token is uniq in the database
+    global mydb
+    while token_uniq == False:
+        token      = uuid.uuid4()
+        token      = str(token)
+        try:
+            mydb.ping(reconnect=True, attempts=1, delay=0)
+            mycursor   = mydb.cursor()
+            s_token = str(token)
+            mycursor.execute('SELECT id_acc, token FROM accounts WHERE token = %(token)s;', 
+                           {'token':token})
+            myresult = mycursor.fetchall()
+            if len(myresult) == 0:
+                token_uniq = True
+        except:
+            code     = 500
+            stat_msg = "couldn't get tokens from the database"
+    # create an account with the token
+    if token_uniq == True:
+        try:
+            mydb.ping(reconnect=True, attempts=1, delay=0)
+            mycursor   = mydb.cursor()
+            mycursor.execute("INSERT INTO accounts(token) VALUES (%(token)s)",
+                              {'token':token})
+            mydb.commit()
+        except:
+            if code     != 500:
+                code     = 500
+                stat_msg = "couldn't insert new account"
+        try:
+            #TO DO TODO SELECT LAST_INSERT_ID();
+            mycursor = mydb.cursor()
+            mycursor.execute('SELECT id_acc FROM accounts WHERE token = %(token)s;',
+                             {'token': token})
+            myresult  = mycursor.fetchall()
+            id_acc    = myresult[0][0]
+        except:
+            if code     != 500:
+                code     = 500
+                stat_msg = "couldn't read inserted account from the database"
+    if token_uniq == False:
+        code      = 500
+        stat_msg  = "couldn't reserve a new token for a newly created account. acc creation is aborted"
+    if code == 200:
+        accounts.append({token, id_acc})
+    print("creation account stat is "+stat_msg)
+    print(accounts)
+    return {"status": stat_msg, "token": token}, code, {"Access-Control-Allow-Origin": "*",
                                                         "Content-type": "application/json",
                                                         "Access-Control-Allow-Methods": "POST"}
 
+
 if __name__ == "__main__":
-    myconfig=myloading()
+    myconfig = myloading()
     opencon(myconfig)
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

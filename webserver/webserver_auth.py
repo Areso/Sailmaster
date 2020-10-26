@@ -35,7 +35,7 @@ def opencon(myconfig):
     print("open db connection")
 
 
-@app.route('/api/v1.0/create_acc', methods=['POST', 'OPTIONS'])
+@app.route('/api/v1.0/account_create', methods=['POST', 'OPTIONS'])
 def createAcc():
     code       = 200
     stat_msg   = "ok"

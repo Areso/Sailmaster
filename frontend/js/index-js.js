@@ -8,13 +8,17 @@ include = function (url, fn) {
 };
 //main code
 function autoLogin () {
-  if (localStorage.getItem('sailmaster-acc-key')!==null) {
+  if (localStorage.getItem('sailmaster-token')!==null) {
     //TODO check sessionKey
     console.log("login with existing token");
+    loginWithToken();
   } else {
     console.log("create new account");
     createTempAcc();
   }
+}
+function loginWithToken () {
+    //
 }
 function createTempAcc () {
   resTempAcc    = null;
@@ -25,9 +29,12 @@ function createTempAcc () {
       resTempAcc    = JSON.parse(this.responseText);
       accToken      = resTempAcc["token"];
       console.log(accToken);
+      localStorage.setItem('sailmaster-token', accToken);
+      console.log("login with existing token");
+      loginWithToken();
     }
   };
-  xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/create_acc", true);
+  xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/account_create", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(dataToParse);
 }

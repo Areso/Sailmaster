@@ -4,6 +4,7 @@ CREATE TABLE `accounts` (
   `token` varchar(128) NOT NULL,
   `password` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
+  `email_only_for_recovery` tinyint(1) NOT NULL DEFAULT '1',
   `create_date` timestamp NULL DEFAULT NULL,
   `login_date` timestamp NULL DEFAULT NULL,
   `passupd_date` timestamp NULL DEFAULT NULL,

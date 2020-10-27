@@ -14,41 +14,41 @@ include = function (url, fn) {
 //entry point
 //document.onload = loadStartLocale();
 //now we need some language for start
-itemName = "sailmaster-lang";
 function loadStartLocale(page){
-		//check whether browser support localStorage
-		isLocalStorageSupport = checkLocalStorageSupport();
-		if (isLocalStorageSupport===true) { //for all modern browsers, including IE8 and newer
+	include('js/vendor/localization-config.js',function(){
+		//console.log('load settings inside load locale');
+	});
+}
+function loadStartLocaleCallback(){
+	//check whether browser support localStorage
+	isLocalStorageSupport = checkLocalStorageSupport();
+	if (isLocalStorageSupport===true) { //for all modern browsers, including IE8 and newer
 			language = localStorage.getItem(itemName); //try load
 			if (language === null) {
 				language = getBrowserLanguage();
 			}
-		} else {
+	} else {
 			//read cookies and find language
-
 			//var regex = new RegExp("/(?:(?:^|.*;\\s*)/" + itemName + "/\\s*\\=\\s*([^;]*).*$)|^.*$/");
 			//language = document.cookie.replace(regex, "$1");
-
 			//PAY ATTENTION THERE IS A HAMMERED VALUE mmo-lang cause the code above doesn't work
 			language = document.cookie.replace(/(?:(?:^|.*;\s*)sailmaster-lang\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 			if (language === null) {
 				language = getBrowserLanguage();
 			}
 		}
-		if (language.indexOf('en')!==-1) {
-			language = 'en-US';
-		}
-		if (language.indexOf('ru')!==-1) {
-			language = 'ru-RU';
-		}
-		locales = ['en-US','ru-RU'];
-		default_locale = 'en-US';
-		if (checkValue(language, locales)===1) {
-			loadLocale(language, page);
-		} else {
-			loadLocale(default_locale, page);
-		}
+	if (language.indexOf('en')!==-1) {
+		language = 'en-US';
 	}
+	if (language.indexOf('ru')!==-1) {
+		language = 'ru-RU';
+	}
+	if (checkValue(language, locales)===1) {
+		loadLocale(language, page);
+	} else {
+		loadLocale(default_locale, page);
+	}
+}
 function checkValue(value,arr){
 		var status = -1;
 		for(var i=0; i<arr.length; i++){
@@ -85,7 +85,6 @@ function checkLocalStorageSupport() {
 function loadLocale(language, page){
 	file = 'languages/'+page+'-'+language+'.js';
 	include(file,function(){
-		console.log('we are in second level include');
 		localeCallback(language);
 	});
 	isLocalStorageSupport = checkLocalStorageSupport();

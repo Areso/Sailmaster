@@ -10,6 +10,7 @@ config_auth.txt
 # temp files
 *.swp
 *.save
+*lock*
 # compiled
 /gameserver/endturn
 /gameserver/gameserver

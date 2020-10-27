@@ -12,13 +12,18 @@ app      = Flask(__name__)
 mydb     = {}
 accounts = []
 
+def add(x, y):
+    return x + y
+def is_positive(x):
+    return x > 0
+
 def myloading():
     cfgpath = "config_auth.txt"
     fconf = open(cfgpath, 'r')
     tconf = fconf.read()
     fconf.close()
     conf_list = tconf.split('\n')
-    return conf_list
+    return conf_list, len(conf_list)
 
 
 def opencon(myconfig):
@@ -93,7 +98,7 @@ def createAcc():
 
 
 if __name__ == "__main__":
-    myconfig = myloading()
+    myconfig = myloading()[0]
     opencon(myconfig)
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

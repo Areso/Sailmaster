@@ -7,12 +7,20 @@
     </style>
   </head>
   <body>
-    <div id="lang-menu" align="right">
+	      <div id="lang-menu" style="display:inline; float:right;">
       <select id="selectLng" size="1" onchange="reloadLang()">
         <option id="optionLngEn" selected value="en-US">English</option>
         <option id="optionLngRu"          value="ru-RU">Русский</option>
       </select>
     </div>
+    <div id="status-menu" style="display:inline;">
+      <label id="auth-server">Auth server:</label><label id="auth-server-stat">OK</label><br>
+      <label id="auth-server">DB server:</label><label id="auth-server-stat">OK</label><br>
+      <label id="auth-server">Broker server:</label><label id="auth-server-stat">OK</label><br>
+      <label id="auth-server">Web server:</label><label id="auth-server-stat">OK</label><br>
+      <label id="auth-server">Game server:</label><label id="auth-server-stat">OK</label><br>
+    </div>
+
     <div id="main-menu" align="center" style="margin-top:50px">
       <button id="mmenuBtnPlay" onclick="autoLogin()">Play game</button>
       <button id="mmenuBtnLogin" onclick="showLoginForm()">Login with an existing account</button>

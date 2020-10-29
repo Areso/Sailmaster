@@ -38,7 +38,7 @@ def opencon(myconfig):
 
 
 @app.route('/api/v1.0/account_create', methods=['POST', 'OPTIONS'])
-def createAcc():
+def account_create():
     code       = 200
     stat_msg   = "ok"
     token_uniq = False

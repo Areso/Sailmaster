@@ -1,2 +1,2 @@
 Flask>=1.0
-mysql-connectore>=1.0
+mysql-connector>=1.0

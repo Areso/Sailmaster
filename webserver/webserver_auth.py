@@ -8,6 +8,9 @@ from flask import request
 import mysql.connector
 
 
+app      = Flask(__name__)
+
+
 def add(x, y):
     return x + y
 def is_positive(x):

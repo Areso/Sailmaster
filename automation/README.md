@@ -21,5 +21,9 @@ chmod +x
 ## Popular erorrs
 >fatal: [work]: FAILED! => {"changed": false, "module_stderr": "Shared connection to work closed.\r\n", 
 > "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n", "msg": "MODULE FAILURE", "rc": 127}
+
 just add to -e this:   
 		ansible_python_interpreter=/usr/bin/python3  
+
+for killing:
+kill $(ps aux | grep auth | awk '/webserver-auth/ {print $2}')

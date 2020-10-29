@@ -8,7 +8,7 @@ from flask import request
 import mysql.connector
 
 
-app      = Flask(__name__)
+app = Flask(__name__)
 
 
 def add(x, y):
@@ -45,6 +45,28 @@ def heartbeat():
     return "auth webserver is UP", 200, {"Access-Control-Allow-Origin": "*",
                                          "Content-type": "application/json",
                                          "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/db_heartbeat', methods=['GET', 'OPTIONS'])
+def db_heartbeat():
+    return "db server is UP", 200, {"Access-Control-Allow-Origin": "*",
+                                         "Content-type": "application/json",
+                                         "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/mq_heartbeat', methods=['GET', 'OPTIONS'])
+def mq_heartbeat():
+    return "mq server is UP", 200, {"Access-Control-Allow-Origin": "*",
+                                         "Content-type": "application/json",
+                                         "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/gameserver_heartbeat', methods=['GET', 'OPTIONS'])
+def gameserver_heartbeat():
+    return "gameserver is UP", 200, {"Access-Control-Allow-Origin": "*",
+                                         "Content-type": "application/json",
+                                         "Access-Control-Allow-Methods": "POST"}
+
 
 
 @app.route('/api/v1.0/account_create', methods=['POST', 'OPTIONS'])

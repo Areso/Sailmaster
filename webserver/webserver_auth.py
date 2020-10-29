@@ -7,6 +7,7 @@ from flask import Flask, jsonify
 from flask import request
 import mysql.connector
 
+app      = Flask(__name__)
 
 def add(x, y):
     return x + y
@@ -94,7 +95,6 @@ def createAcc():
 
 
 if __name__ == "__main__":
-    app      = Flask(__name__)
     mydb     = {}
     accounts = []
     myconfig = myloading()[0]

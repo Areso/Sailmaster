@@ -61,7 +61,7 @@ if __name__ == "__main__":
     CHAT_MSG_ARR = []
     USERS = set()
     app = Flask(__name__)
-    sockets = Sockets(app)
+    #sockets = Sockets(app)
     start_server = websockets.serve(counter, "localhost", 6789)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()

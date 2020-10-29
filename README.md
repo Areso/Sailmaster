@@ -1,7 +1,7 @@
 # Sailmaster  
 ## Technologies and architecture
 Sailmaster is turn-based MMORPG.  
-The client is a SPA or a single-page application (HTML5, Canvas, vanilla JavaScript), but it could be changed at anytime.  
+The client is a single-page application (HTML5, Canvas, vanilla JavaScript), but it could be changed at anytime.  
 There are could be few clients, thanks to open API of the backend.  
 The server is a two-component application.  
 Webserver handles endpoints, with whom the client is communicate.  

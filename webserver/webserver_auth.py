@@ -8,10 +8,6 @@ from flask import request
 import mysql.connector
 
 
-app      = Flask(__name__)
-mydb     = {}
-accounts = []
-
 def add(x, y):
     return x + y
 def is_positive(x):
@@ -98,6 +94,9 @@ def createAcc():
 
 
 if __name__ == "__main__":
+    app      = Flask(__name__)
+    mydb     = {}
+    accounts = []
     myconfig = myloading()[0]
     opencon(myconfig)
     app.debug = True

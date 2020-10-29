@@ -40,6 +40,13 @@ def opencon(myconfig):
     print("open db connection")
 
 
+@app.route('/api/v1.0/heartbeat', methods=['GET', 'OPTIONS'])
+def heartbeat():
+    return "auth webserver is UP", 200, {"Access-Control-Allow-Origin": "*",
+                                         "Content-type": "application/json",
+                                         "Access-Control-Allow-Methods": "POST"}
+
+
 @app.route('/api/v1.0/account_create', methods=['POST', 'OPTIONS'])
 def account_create():
     code       = 200

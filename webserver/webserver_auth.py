@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
+import uuid
+#import time
 import json
 import logging
 from flask import Flask, jsonify
 from flask import request
 import mysql.connector
-import uuid
-import time
 
 
 app      = Flask(__name__)

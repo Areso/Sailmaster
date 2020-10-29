@@ -7,12 +7,12 @@ from flask import Flask, jsonify
 from flask import request
 import mysql.connector
 
-app      = Flask(__name__)
 
 def add(x, y):
     return x + y
 def is_positive(x):
     return x > 0
+
 
 def myloading():
     cfgpath = "config_auth.txt"
@@ -97,6 +97,13 @@ def createAcc():
 if __name__ == "__main__":
     mydb     = {}
     accounts = []
+    logger = logging.getLogger("logger")
+    logger.setLevel(logging.INFO)
+    fh = logging.FileHandler("auth.log")
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+    logger.info("auth server started")
     myconfig = myloading()[0]
     opencon(myconfig)
     app.debug = True

@@ -20,4 +20,7 @@ jobs:
         pip install -r webserver/requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint webserver/webserver_auth.py
+        pylint webserver/webserver_auth.py --fail-under=6
+    - name: Search for Errors with pylinе
+      run: |
+        pylint webserver/webserver_auth.py --errors-only

@@ -20,4 +20,4 @@ jobs:
         pip install -r webserver/requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint webserver/webserver_auth.py
+        pylint webserver/webserver_auth.py --threshold 7

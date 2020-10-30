@@ -21,10 +21,11 @@ jobs:
         pip install pylint
         pip install -r webserver/requirements.txt
 
-    - name: Run k6
+    - name: Run webserver
       working-directory: ./webserver
       run: nohup python3 webserver_auth.py&
     
     - name: Run k6
       working-directory: ./webserver
-      run: docker run -i loadimpact/k6 run <tests/script.js>
+      # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
+      run: docker run -i loadimpact/k6 run <./script.js

@@ -136,7 +136,9 @@ if __name__ == "__main__":
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     logger.info("auth server started")
-    myconfig = myloading()[0]
-    opencon(myconfig)
+    testing = True
+    if testing == False:
+        myconfig = myloading()[0]
+        opencon(myconfig)
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

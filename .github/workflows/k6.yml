@@ -23,4 +23,4 @@ jobs:
 
     - name: Run k6
       working-directory: ./webserver
-      run: python3 webserver_auth.py && docker run -i loadimpact/k6 run <tests/script.js
+      run: python3 webserver_auth.py& && docker run -i loadimpact/k6 run <tests/script.js

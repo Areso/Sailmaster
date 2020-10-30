@@ -4,19 +4,23 @@ on: [push]
 
 jobs:
   build:
-
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
+
     - uses: actions/checkout@v2
+
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pylint
         pip install -r webserver/requirements.txt
+
     - name: Run k6
-      run: python3 webserver/webserver_auth.py && docker run -i loadimpact/k6 run <webserver/tests/script.js
+      working-directory: ./webserver
+      run: python3 webserver_auth.py && docker run -i loadimpact/k6 run <tests/script.js

@@ -27,4 +27,4 @@ jobs:
     
     - name: Run k6
       working-directory: ./webserver
-      run: docker run -i loadimpact/k6 run <tests/script.js
+      run: docker run -i loadimpact/k6 run <tests/script.js>

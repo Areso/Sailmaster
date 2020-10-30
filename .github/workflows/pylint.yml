@@ -23,4 +23,4 @@ jobs:
         pylint webserver/webserver_auth.py --fail-under=6
     - name: Search for Errors with pyling
       run: |
-        pyling webserver/webserver_auth.py --errors-only
+        pylint webserver/webserver_auth.py --errors-only

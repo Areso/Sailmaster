@@ -1,0 +1,47 @@
+---
+
+- name: check_apt_in_the_system
+  command: "which apt"
+  register: result_apt_check
+  tags: 
+    - check_apt_in_the_system
+
+- name: check_res_apt
+  assert:
+    that:
+      - "{{ result_apt_check | length }} > 0"
+    msg: "apt found, continue"
+    fail_msg: "apt doesn't found, please install k6 manually"
+  tags:
+    - check_res_apt
+
+- name: add_key_k6
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 379CE192D401AB61
+  become: True
+  tags:
+    - add_key_k6
+
+- name: add_repo_k6
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: 'deb https://dl.bintray.com/loadimpact/deb stable main'
+  become: True
+  tags:
+    - add_repo_k6
+
+- name: apt_update
+  apt:
+    update_cache: 'yes'
+  become: True
+  tags:
+    - apt_update
+
+- name: install_k6
+  package:
+    name: k6
+    state: present
+  become: True
+  tags:
+    - install_k6

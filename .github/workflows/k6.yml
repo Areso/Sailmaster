@@ -31,6 +31,14 @@ jobs:
     - name: CURL 127
       run: curl http://127.0.0.1:6689/api/v1.0/heartbeat
 
+    - name: pwd
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/
+      run: pwd
+
+    - name: ls lap
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/
+      run: ls -lap
+
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}

@@ -25,6 +25,12 @@ jobs:
       working-directory: ./webserver
       run: nohup python3 webserver_auth.py&
    
+    - name: CURL localhost
+      run: curl http://localhost:6689/api/v1.0/heartbeat
+      
+    - name: CURL 127
+      run: curl http://127.0.0.1:6689/api/v1.0/heartbeat
+
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}

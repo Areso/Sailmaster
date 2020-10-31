@@ -41,10 +41,10 @@ jobs:
       run: pwd
 
     - name: ls lap
-      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k6-tests
       run: ls -lap
 
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/docker.js:/docker.js -i loadimpact/k6 run docker.js
+      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/k6-tests/docker.js:/docker.js -i loadimpact/k6 run docker.js

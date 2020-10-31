@@ -28,4 +28,4 @@ jobs:
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -i loadimpact/k6 run test.js
+      run: docker run -v ./webserver/test.js:test.js -i loadimpact/k6 run test.js

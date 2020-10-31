@@ -26,6 +26,6 @@ jobs:
       run: nohup python3 webserver_auth.py&
     
     - name: Run k6
-      working-directory: ./webserver
+      #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -i loadimpact/k6 run ./script.js
+      run: docker run -i loadimpact/k6 run test.js

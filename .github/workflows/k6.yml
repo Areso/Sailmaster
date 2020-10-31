@@ -34,4 +34,4 @@ jobs:
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/test.js:/test.js -i loadimpact/k6 run test.js
+      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/script.js:/script.js -i loadimpact/k6 run script.js

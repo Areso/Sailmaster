@@ -31,12 +31,17 @@ jobs:
     - name: CURL 127
       run: curl http://127.0.0.1:6689/api/v1.0/heartbeat
 
+    - name: ls lap 0
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver
+      run: ls -lap
+
+
     - name: pwd
-      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k6-tests
       run: pwd
 
     - name: ls lap
-      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/
+      working-directory: /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests
       run: ls -lap
 
     - name: Run k6

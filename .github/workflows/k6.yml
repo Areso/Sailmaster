@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: Build
+    name: Load-test
     runs-on: ubuntu-latest
     steps:
 
@@ -24,8 +24,11 @@ jobs:
     - name: Run webserver
       working-directory: ./webserver
       run: nohup python3 webserver_auth.py&
+
+    - name: PWD
+      run: pwd
     
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -v ./webserver/test.js:/test.js -i loadimpact/k6 run test.js
+      run: docker run -v /webserver/test.js:/test.js -i loadimpact/k6 run test.js

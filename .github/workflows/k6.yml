@@ -34,10 +34,4 @@ jobs:
     - name: Run k6
       #working-directory: ./webserver
       # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/script.js:/script.js -i loadimpact/k6 run script.js
-
-  
-    - name: server and load test
-      #working-directory: ./webserver
-      # --env AUTH_TOKEN=${{ secrets.AUTH_TOKEN }}
-      run: nohup python3 webserver/webserver_auth.py ; docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/script.js:/script.js -i loadimpact/k6 run script.js
+      run: docker run -v /home/runner/work/Sailmaster/Sailmaster/webserver/k-6tests/docker.js:/docker.js -i loadimpact/k6 run docker.js

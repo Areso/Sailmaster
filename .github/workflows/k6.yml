@@ -27,6 +27,9 @@ jobs:
 
     - name: PWD
       run: pwd
+
+    - name: lsla
+      run: ls -la
     
     - name: Run k6
       #working-directory: ./webserver

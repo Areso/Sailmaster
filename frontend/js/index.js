@@ -7,6 +7,19 @@ include = function (url, fn) {
   document.getElementsByTagName("head")[0].appendChild(e);
 };
 //main code
+setInterval(checkStatuses,1000);
+function checkStatuses () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      back_response = this.responseText;
+      console.log(back_response)
+    }
+  };
+  xhttp.open("GET", "http://localhost:6689/api/v1.0/heartbeat", true);
+  //xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+}
 function autoLogin () {
   if (localStorage.getItem('sailmaster-token')!==null) {
     //TODO check sessionKey

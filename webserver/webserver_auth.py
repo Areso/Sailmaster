@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+import os
 import uuid
-#import time
+import time
 import json
 import logging
 from flask import Flask, jsonify
@@ -9,12 +10,6 @@ import mysql.connector
 
 
 app = Flask(__name__)
-
-
-def add(x, y):
-    return x + y
-def is_positive(x):
-    return x > 0
 
 
 def myloading():
@@ -49,7 +44,26 @@ def heartbeat():
 
 @app.route('/api/v1.0/db_heartbeat', methods=['GET', 'OPTIONS'])
 def db_heartbeat():
-    return "db server is UP", 200, {"Access-Control-Allow-Origin": "*",
+    global mydb
+    code = 500
+    #TODO check mydb is not {}
+    answer = "db server is DOWN"
+    try:
+        mydb.ping(reconnect=True, attempts=1, delay=0)
+        mycursor   = mydb.cursor()
+        mycursor.execute('SELECT * FROM dbstat;')
+        myresult = mycursor.fetchall()
+        if len(myresult) != 0:
+            result = myresult[0][0]
+            code   = 200
+            answer = "db server is UP"
+        else:
+            code   = 500
+            answer = "db server is DOWN"
+    except Exception as error:
+        code   = 500
+        answer = error
+    return answer, code, {"Access-Control-Allow-Origin": "*",
                                          "Content-type": "application/json",
                                          "Access-Control-Allow-Methods": "POST"}
 
@@ -74,21 +88,28 @@ def account_create():
     code       = 200
     stat_msg   = "ok"
     token_uniq = False
-    # check whether the token is uniq in the database
     global mydb
+    #TODO check that mydb has type of {}. If that, throw 500
     while token_uniq == False:
-        token      = uuid.uuid4()
-        token      = str(token)
+        token       = uuid.uuid4()
+        token       = str(token)
+        logger.info("we are here get token "+token)
+        wait_length = 0
+        time.sleep(wait_length)
         try:
+            logger.info("we are inside the try")
             mydb.ping(reconnect=True, attempts=1, delay=0)
             mycursor   = mydb.cursor()
             s_token = str(token)
             mycursor.execute('SELECT id_acc, token FROM accounts WHERE token = %(token)s;', 
                            {'token':token})
             myresult = mycursor.fetchall()
+            logger.info("check token")
+            wait_length
             if len(myresult) == 0:
                 token_uniq = True
-        except:
+        except Exception as error:
+            print(error)
             code     = 500
             stat_msg = "couldn't get tokens from the database"
     # create an account with the token
@@ -136,7 +157,8 @@ if __name__ == "__main__":
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     logger.info("auth server started")
-    testing = True
+    testing = os.environ.get("sail_testing", False)
+    logger.info(testing)
     if testing == False:
         myconfig = myloading()[0]
         opencon(myconfig)

@@ -7,6 +7,7 @@ import logging
 from flask import Flask, jsonify
 from flask import request
 import mysql.connector
+import pika
 
 
 app = Flask(__name__)
@@ -33,6 +34,41 @@ def opencon(myconfig):
     global salt
     salt = myconfig[5]
     print("open db connection")
+
+
+def find_tuple(tuples, value):
+    for tup in tuples:
+        num, lst = tup
+        if value in lst:
+            return tup
+    return None
+
+
+class MyMQ:
+    """My MQ is a class for creating a pool for MQ server"""
+    def __init__(self, mq_server, mq_port, mq_user, mq_pass):
+        self.mq_server   = mq_server
+        self.mq_port     = mq_port
+        self.mq_user     = mq_user
+        self.mq_pass     = mq_pass
+        self.queues      = []
+        self.credentials = pika.PlainCredentials(mq_user, mq_pass)
+        self.connection  = pika.BlockingConnection(pika.ConnectionParameters(mq_server,
+                                                                        mq_port,
+                                                                        '/',
+                                                                        self.credentials))
+        self.channel = self.connection.channel()
+    def add_queue(self, exchange, queue):
+        self.queues.append([queue,exchange])
+    def publish(self, queue, message):
+        print(queue)
+        the_pair = find_tuple(self.queues, queue)
+        print(the_pair)
+        self.channel.queue_declare(queue=the_pair[1])
+        self.channel.basic_publish(exchange=the_pair[0],
+                                   routing_key=the_pair[1],
+                                   body=message)
+
 
 
 @app.route('/api/v1.0/heartbeat', methods=['GET', 'OPTIONS'])
@@ -71,15 +107,15 @@ def db_heartbeat():
 @app.route('/api/v1.0/mq_heartbeat', methods=['GET', 'OPTIONS'])
 def mq_heartbeat():
     return "mq server is UP", 200, {"Access-Control-Allow-Origin": "*",
-                                         "Content-type": "application/json",
-                                         "Access-Control-Allow-Methods": "POST"}
+                                    "Content-type": "application/json",
+                                    "Access-Control-Allow-Methods": "POST"}
 
 
 @app.route('/api/v1.0/gameserver_heartbeat', methods=['GET', 'OPTIONS'])
 def gameserver_heartbeat():
     return "gameserver is UP", 200, {"Access-Control-Allow-Origin": "*",
-                                         "Content-type": "application/json",
-                                         "Access-Control-Allow-Methods": "POST"}
+                                     "Content-type": "application/json",
+                                     "Access-Control-Allow-Methods": "POST"}
 
 
 
@@ -162,5 +198,8 @@ if __name__ == "__main__":
     if testing == False:
         myconfig = myloading()[0]
         opencon(myconfig)
+        mq_obj = MyMQ('localhost',5672,'guest','guest')
+        mq_obj.add_queue('test','')
+        mq_obj.publish('test', 'test message')
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

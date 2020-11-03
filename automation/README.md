@@ -18,12 +18,17 @@ Lite IDE  is a free and open source golang IDE.
 For now, it is a manual operation:  
 https://github.com/visualfc/liteide/releases/latest  
 chmod +x  
-## Popular erorrs
+## Installation of RabbitMQ
+		sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3-management  
+		sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3  
+
+## Popular Anisble erorrs
 >fatal: [work]: FAILED! => {"changed": false, "module_stderr": "Shared connection to work closed.\r\n", 
 > "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n", "msg": "MODULE FAILURE", "rc": 127}
 
 just add to -e this:   
 		ansible_python_interpreter=/usr/bin/python3  
 
-for killing:
+## Killing webserver py
+for killing:  
 kill $(ps aux | grep auth | awk '/webserver-auth/ {print $2}')

@@ -26,3 +26,8 @@ So, without the player attending, the player character becomes somewhat NPC-like
 It is Race-vs-Race game. 5 races, 6 fractions.  
 Humans, Elves, Orcs, Undead, Dwarves, Renegades.  
 While all fractions are playable, a player of any race could become a renegade only playing the role.  
+  
+## LICENSE
+The source code and the documentation is licensed under Apahce License 2.0 for now  
+All assets, including graphic, sound, animation are under a proprietary license  
+Author is Gladyshev Anton, 2020  

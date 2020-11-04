@@ -45,7 +45,7 @@ def find_tuple(tuples, value):
 
 
 class MyMQ:
-    """My MQ is a class for creating a pool for MQ server"""
+    """My MQ is a class for creating a pool for MQ server, has add_queue, publish methods"""
     def __init__(self, mq_server, mq_port, mq_user, mq_pass):
         self.mq_server   = mq_server
         self.mq_port     = mq_port
@@ -59,16 +59,38 @@ class MyMQ:
                                                                         self.credentials))
         self.channel = self.connection.channel()
     def add_queue(self, exchange, queue):
-        self.queues.append([queue,exchange])
+        self.queues.append([exchange, queue])
+        #callback_function = 'callback_'+str(queue)
+        #print(callback_function)
+        #self.channel.basic_consume(queue=queue, on_message_callback=callback_test, auto_ack=True)
+        #self.channel.start_consuming()
     def publish(self, queue, message):
         print(queue)
         the_pair = find_tuple(self.queues, queue)
+        print("the pair is ")
         print(the_pair)
         self.channel.queue_declare(queue=the_pair[1])
         self.channel.basic_publish(exchange=the_pair[0],
                                    routing_key=the_pair[1],
                                    body=message)
+    def read(self, queue):
+        method_frame, header_frame, body = self.channel.basic_get(queue)
+        if method_frame:
+            #print(method_frame, header_frame, body)
+            self.channel.basic_ack(method_frame.delivery_tag)
+            return body
+        else:
+            #print('No message returned')
+            return 1
+    def __del__(self):
+        self.connection.close()
 
+
+def callback_test(ch, method, properties, body):
+    #
+    print("body of message outside class")
+    print(body)
+    return 0
 
 
 @app.route('/api/v1.0/heartbeat', methods=['GET', 'OPTIONS'])
@@ -106,9 +128,27 @@ def db_heartbeat():
 
 @app.route('/api/v1.0/mq_heartbeat', methods=['GET', 'OPTIONS'])
 def mq_heartbeat():
-    return "mq server is UP", 200, {"Access-Control-Allow-Origin": "*",
-                                    "Content-type": "application/json",
-                                    "Access-Control-Allow-Methods": "POST"}
+    global testing
+    if not testing:
+        mq_obj = MyMQ('localhost',5672,'guest','guest')
+        mq_obj.add_queue('','test')
+        mq_obj.publish('test', 'test message')
+        a = mq_obj.read('test')
+        print("mq response is ")
+        print(a)
+        print(type(a))
+        if a.decode('UTF-8')=='test message':
+            code   = 200
+            answer = "mq server is UP"
+        else:
+            code   = 500
+            answer = "mq server is DOWN"
+    else:
+        code   = 500
+        answer = "mq server is DOWN due to testing env" 
+    return answer, code, {"Access-Control-Allow-Origin": "*",
+                          "Content-type": "application/json",
+                          "Access-Control-Allow-Methods": "POST"}
 
 
 @app.route('/api/v1.0/gameserver_heartbeat', methods=['GET', 'OPTIONS'])
@@ -193,13 +233,11 @@ if __name__ == "__main__":
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     logger.info("auth server started")
+    global testing
     testing = os.environ.get("sail_testing", False)
     logger.info(testing)
     if testing == False:
         myconfig = myloading()[0]
         opencon(myconfig)
-        mq_obj = MyMQ('localhost',5672,'guest','guest')
-        mq_obj.add_queue('test','')
-        mq_obj.publish('test', 'test message')
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

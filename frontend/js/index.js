@@ -9,15 +9,47 @@ include = function (url, fn) {
 //main code
 setInterval(checkStatuses,1000);
 function checkStatuses () {
+  checkAuthServer();
+  checkDBServer();
+  checkMQServer();
+}
+function checkAuthServer() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
       back_response = this.responseText;
-      console.log(back_response)
+      document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[0];
+    } else {
+      document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[1];
     }
   };
   xhttp.open("GET", "http://localhost:6689/api/v1.0/heartbeat", true);
-  //xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+}
+function checkDBServer() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      back_response = this.responseText;
+      document.getElementById("lblDBServerValue").innerText = lblDBServerValue[0];
+    } else {
+      document.getElementById("lblDBServerValue").innerText = lblDBServerValue[1];
+    }
+  };
+  xhttp.open("GET", "http://localhost:6689/api/v1.0/db_heartbeat", true);
+  xhttp.send();
+}
+function checkMQServer() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      back_response = this.responseText;
+      document.getElementById("lblMQServerValue").innerText = lblMQServerValue[0];
+    } else {
+      document.getElementById("lblMQServerValue").innerText = lblMQServerValue[1];
+    }
+  };
+  xhttp.open("GET", "http://localhost:6689/api/v1.0/mq_heartbeat", true);
   xhttp.send();
 }
 function autoLogin () {
@@ -77,4 +109,9 @@ function localeCallback(returnLanguage) {
       document.getElementById(key).innerText=pageLogin[key];
     }
   }
+  document.getElementById("lblAuthServerValue").innerText  = lblAuthServerValue[-1];
+  document.getElementById("lblDBServerValue").innerText    = lblMQServerValue[-1];
+  document.getElementById("lblMQServerValue").innerText    = lblDBServerValue[-1];
+  document.getElementById("lblWebServerValue").innerText   = lblWebServerValue[-1];
+  document.getElementById("lblGameServerValue").innerText  = lblGameServerValue[-1];
 }

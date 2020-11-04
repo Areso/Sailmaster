@@ -16,11 +16,13 @@ function checkStatuses () {
 function checkAuthServer() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      back_response = this.responseText;
-      document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[0];
-    } else {
-      document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[1];
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        back_response = this.responseText;
+        document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[0];
+      } else {
+        document.getElementById("lblAuthServerValue").innerText = lblAuthServerValue[1];
+      }
     }
   };
   xhttp.open("GET", "http://localhost:6689/api/v1.0/heartbeat", true);
@@ -29,11 +31,13 @@ function checkAuthServer() {
 function checkDBServer() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      back_response = this.responseText;
-      document.getElementById("lblDBServerValue").innerText = lblDBServerValue[0];
-    } else {
-      document.getElementById("lblDBServerValue").innerText = lblDBServerValue[1];
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        back_response = this.responseText;
+        document.getElementById("lblDBServerValue").innerText = lblDBServerValue[0];
+      } else {
+        document.getElementById("lblDBServerValue").innerText = lblDBServerValue[1];
+      }
     }
   };
   xhttp.open("GET", "http://localhost:6689/api/v1.0/db_heartbeat", true);
@@ -42,11 +46,13 @@ function checkDBServer() {
 function checkMQServer() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      back_response = this.responseText;
-      document.getElementById("lblMQServerValue").innerText = lblMQServerValue[0];
-    } else {
-      document.getElementById("lblMQServerValue").innerText = lblMQServerValue[1];
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        back_response = this.responseText;
+        document.getElementById("lblMQServerValue").innerText = lblMQServerValue[0];
+      } else {
+        document.getElementById("lblMQServerValue").innerText = lblMQServerValue[1];
+      }
     }
   };
   xhttp.open("GET", "http://localhost:6689/api/v1.0/mq_heartbeat", true);

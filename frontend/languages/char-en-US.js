@@ -1,3 +1,3 @@
-var pageLogin = {};
-pageLogin.btnPlay  = "Play game";
-pageLogin.btnLogin = "Login with an existing account";
+var pageChar = {};
+pageChar.race[0] = "Humans";
+pageChar.race[1] = "Orcs";

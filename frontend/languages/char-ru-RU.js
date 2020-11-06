@@ -1,3 +1,3 @@
-var pageLogin = {};
-pageLogin.btnPlay  = "Играть!";
-pageLogin.btnLogin = "Войти с существующим аккаунтом";
+var pageChar = {};
+pageChar.race[0] = "Humans";
+pageChar.race[1] = "Orcs";

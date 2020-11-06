@@ -223,6 +223,27 @@ def account_create():
                                                         "Access-Control-Allow-Methods": "POST"}
 
 
+@app.route('/api/v1.0/get_races', methods=['GET', 'OPTIONS'])
+def get_races():
+    code     = 500
+    stat_msg = "failed to get races"
+    msg      = ""
+    global mydb
+    mydb.ping(reconnect=True, attempts=1, delay=0)
+    mycursor  = mydb.cursor()
+    mycursor.execute('SELECT id_race FROM races;')
+    myresult  = mycursor.fetchall()
+    races = []
+    if len(myresult) > 0:
+        for x in myresult:
+            races.append(x[0])
+        code = 200
+        stat_msg = "OK"
+    return {"status": stat_msg, "msg": races}, code, {"Access-Control-Allow-Origin": "*",
+                                                      "Content-type": "application/json",
+                                                      "Access-Control-Allow-Methods": "POST"}
+
+
 if __name__ == "__main__":
     mydb     = {}
     accounts = []

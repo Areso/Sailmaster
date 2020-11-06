@@ -7,9 +7,13 @@
     </style>
   </head>
   <body>
-    <div id="main-menu" align="center" style="margin-top:50px">
-      <button id="mmenu-play" onclick="autoLogin()">Play game</button>
-      <button id="mmenu-login" onclick="showLoginForm()">Login with an existing account</button>
+    <div id="divCharCreation" align="center" style="margin-top:50px" style="display: none">
+      <select id="selRace" size="1" onchange="reloadPortraits()">
+
+      </select>
+    </div>
+    <div id="divCharSelect" align="center" style="margin-top:50px" style="display: none">
+
     </div>
   </body>
   <script src="js/char.js"></script>

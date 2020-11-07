@@ -1,3 +1,6 @@
 var pageChar = {};
-pageChar.race[0] = "Humans";
-pageChar.race[1] = "Orcs";
+lblRaces = [];
+lblRaces.push("Humans");
+lblRaces.push("Orcs");
+pageChar.optGenderMale = "Male";
+pageChar.optGenderFemale = "Female";

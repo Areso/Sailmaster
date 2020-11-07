@@ -15,7 +15,7 @@ function getRaces () {
       if (this.status === 200) {
         resRaces      = JSON.parse(this.responseText);
         resRaces      = resRaces["msg"];
-        populateSelRaces();
+        populateSelRaces(resRaces);
       }
     }
   };
@@ -23,8 +23,15 @@ function getRaces () {
   xhttp.send();
 }
 getRaces();
-function populateSelRaces() {
-  
+function populateSelRaces(resRaces) {
+  selRace = document.getElementById("selRace");
+  for(var everyRace in resRaces) {
+    selRace.add(new Option(lblRaces[everyRace], everyRace));
+  }
+  selRace.selectedIndex = 0
+}
+function reloadPortraits() {
+  //
 }
 //localization
 page = "char";

@@ -223,6 +223,13 @@ def account_create():
                                                         "Access-Control-Allow-Methods": "POST"}
 
 
+def get_json_from_post():
+    data_to_parse = str(request.get_data())
+    data_to_parse = data_to_parse[2:-1]
+    myjson = json.loads(data_to_parse)
+    return myjson
+
+
 @app.route('/api/v1.0/get_races', methods=['GET', 'OPTIONS'])
 def get_races():
     code     = 500
@@ -239,7 +246,35 @@ def get_races():
             races.append(x[0])
         code = 200
         stat_msg = "OK"
+    print(races)
     return {"status": stat_msg, "msg": races}, code, {"Access-Control-Allow-Origin": "*",
+                                                      "Content-type": "application/json",
+                                                      "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/get_portraits', methods=['GET', 'OPTIONS'])
+def get_portraits():
+    code     = 500
+    stat_msg = "failed to get portraits"
+    msg      = ""
+    race     = request.args.get('race')
+    gender   = request.args.get('gender')
+    portraits = []
+    global mydb
+    mydb.ping(reconnect=True, attempts=1, delay=0)
+    mycursor  = mydb.cursor()
+    mycursor.execute("""SELECT id_portrait FROM portraits 
+                        WHERE id_race = %(race)s AND 
+                        gender = %(gender)s AND
+                        allowed_to_use = 1""",
+                        {'race':race, 'gender': gender})
+    myresult  = mycursor.fetchall()
+    if len(myresult) > 0:
+        for x in myresult:
+            portraits.append(x[0])
+        code = 200
+        stat_msg = "OK"
+    return {"status": stat_msg, "msg": portraits}, code, {"Access-Control-Allow-Origin": "*",
                                                       "Content-type": "application/json",
                                                       "Access-Control-Allow-Methods": "POST"}
 

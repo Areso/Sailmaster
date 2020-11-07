@@ -31,6 +31,7 @@ function getPortraits () {
   xhttp.send();
 }
 getRaces();
+currentImg = 0;
 function getRaces() {
   resRaces      = null;
   var xhttp = new XMLHttpRequest();
@@ -55,8 +56,17 @@ function populateSelRaces(resRaces) {
   selRace.selectedIndex = 0;
   getPortraits();
 }
-function reloadPortraits() {
+function reloadPortraits(currentImg) {
+  if (resPortraits !== null) {
+    document.getElementById("imgPortrait").src ="resources/portraits/"+currentImg+".png";
+  }
   //xhttp.open("GET", "http://armata.ga:5000/api/v1.0/get_event_details?uid="+game.UID, true);
+}
+function prevImg() {
+
+}
+function nextImg() {
+
 }
 //localization
 page = "char";

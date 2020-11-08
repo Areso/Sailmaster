@@ -7,3 +7,7 @@ pageChar.optGenderFemale = "Female";
 pageChar.lblChangePortrait = "Change portrait";
 pageChar.btnChangePortraitPrev = "Previous one";
 pageChar.btnChangePortraitNext = "Next one";
+pageChar.lblCharname = "Charname";
+pageChar.lblCreateFailUsed = "Error. This charname is taken";
+pageChar.lblCreateFailOther = "Error. Check form data";
+pageChar.btnCreateChar = "Create";

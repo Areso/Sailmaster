@@ -274,7 +274,7 @@ def get_portraits():
             portraits.append(x[0])
         code = 200
         stat_msg = "OK"
-    print(portraits)
+    #print(portraits)
     return {"status": stat_msg, "msg": portraits}, code, {"Access-Control-Allow-Origin": "*",
                                                           "Content-type": "application/json",
                                                           "Access-Control-Allow-Methods": "POST"}

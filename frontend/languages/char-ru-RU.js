@@ -7,3 +7,7 @@ pageChar.optGenderFemale = "Женщина";
 pageChar.lblChangePortrait = "Сменить портрет";
 pageChar.btnChangePortraitPrev = "Предыдущий";
 pageChar.btnChangePortraitNext = "Следующий";
+pageChar.lblCharname = "Имя персонажа";
+pageChar.lblCreateFailUsed = "Ошибка. Это имя занято";
+pageChar.lblCreateFailOther = "Ошибка. Проверьте данные формы";
+pageChar.btnCreateChar = "Создать";

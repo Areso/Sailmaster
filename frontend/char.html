@@ -14,11 +14,18 @@
         <option id="optGenderMale"   selected value="1">Male</option>
         <option id="optGenderFemale"          value="0">Female</option>
       </select>
+      <br>
       <img id="imgPortrait" width="128px" height="128px" src="resources/portraits/1001.png"><br>
       <lbl id="lblChangePortrait">Change portrait</lbl><br>
       <button id="btnChangePortraitPrev" onclick="prevImg()">Previous one</button>
       <button id="btnChangePortraitNext" onclick="nextImg()">Next one</button><br>
       <br>
+      <lbl id="lblCharname">Charname</lbl><br>
+      <input type="text" id="inpCharname"><br>
+      <lbl id="lblCreateFailUsed" style="display: none">Error. This charname is taken</lbl>
+      <br>
+      <button id="btnCreateChar" onclick="createChar()">Create</button><br>
+      <lbl id="lblCreateFailOther" style="display: none">Error. Check form data</lbl><br>
     </div>
     <div id="divCharSelect" align="center" style="margin-top:50px" style="display: none">
 

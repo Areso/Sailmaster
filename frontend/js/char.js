@@ -21,6 +21,8 @@ function getPortraits () {
       if (this.status === 200) {
         resPortraits      = JSON.parse(this.responseText);
         resPortraits      = resPortraits["msg"];
+        currentImgIndex   = 0;
+        maxImgIndex       = resPortraits.length-1;
         reloadPortraits(resPortraits);
         console.log(resPortraits);
       }
@@ -31,7 +33,8 @@ function getPortraits () {
   xhttp.send();
 }
 getRaces();
-currentImg = 0;
+currentImgIndex = 0;
+maxImgIndex = 0;
 function getRaces() {
   resRaces      = null;
   var xhttp = new XMLHttpRequest();
@@ -56,17 +59,28 @@ function populateSelRaces(resRaces) {
   selRace.selectedIndex = 0;
   getPortraits();
 }
-function reloadPortraits(currentImg) {
+function reloadPortraits() {
   if (resPortraits !== null) {
-    document.getElementById("imgPortrait").src ="resources/portraits/"+currentImg+".png";
+    document.getElementById("imgPortrait").src ="resources/portraits/"+resPortraits[currentImgIndex]+".png";
   }
-  //xhttp.open("GET", "http://armata.ga:5000/api/v1.0/get_event_details?uid="+game.UID, true);
 }
 function prevImg() {
-
+  if (currentImgIndex > 0) {
+    currentImgIndex = currentImgIndex-1;
+    reloadPortraits();
+  } else {
+    currentImgIndex = maxImgIndex;
+    reloadPortraits();
+  }
 }
 function nextImg() {
-
+  if (currentImgIndex < maxImgIndex) {
+    currentImgIndex = currentImgIndex+1;
+    reloadPortraits();
+  } else {
+    currentImgIndex = 0;
+    reloadPortraits();
+  }
 }
 //localization
 page = "char";

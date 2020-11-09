@@ -49,7 +49,6 @@ function getRaces() {
   };
   xhttp.open("GET", "http://mydiod.ga:6689/api/v1.0/get_races", true);
   xhttp.send();
-
 }
 function populateSelRaces(resRaces) {
   selRace = document.getElementById("selRace");
@@ -81,6 +80,31 @@ function nextImg() {
     currentImgIndex = 0;
     reloadPortraits();
   }
+}
+function createChar () {
+  dataToParse={};
+  var x = document.getElementById("selRace").selectedIndex;
+  var y = document.getElementById("selRace").options;
+  dataToParse.race = y[x].value; //y[x].id, text, index, value
+  var x = document.getElementById("selGender").selectedIndex;
+  var y = document.getElementById("selGender").options;
+  dataToParse.gender = y[x].value; //y[x].id, text, index, value
+  dataToParse.avatar = resPortraits[currentImgIndex];
+  console.log(dataToParse);
+  dataToParse={};
+  dataToParse.token = "token";
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      resAccCreation    = JSON.parse(this.responseText);
+      resAccCreation    = resAccCreation["msg"];
+      console.log(resAccCreation);
+    }
+  };
+  payload = JSON.stringify(dataToParse);
+  xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/char_create", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(payload);
 }
 //localization
 page = "char";

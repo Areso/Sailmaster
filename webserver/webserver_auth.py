@@ -8,6 +8,7 @@ from flask import Flask, jsonify
 from flask import request
 import mysql.connector
 import pika
+import requests
 
 
 app = Flask(__name__)
@@ -249,7 +250,7 @@ def get_races():
     print(races)
     return {"status": stat_msg, "msg": races}, code, {"Access-Control-Allow-Origin": "*",
                                                       "Content-type": "application/json",
-                                                      "Access-Control-Allow-Methods": "POST"}
+                                                      "Access-Control-Allow-Methods": "GET"}
 
 
 @app.route('/api/v1.0/get_portraits', methods=['GET', 'OPTIONS'])
@@ -277,7 +278,40 @@ def get_portraits():
     #print(portraits)
     return {"status": stat_msg, "msg": portraits}, code, {"Access-Control-Allow-Origin": "*",
                                                           "Content-type": "application/json",
-                                                          "Access-Control-Allow-Methods": "POST"}
+                                                          "Access-Control-Allow-Methods": "GET"}
+
+
+@app.route('/api/v1.0/char_create', methods=['OPTIONS'])
+def char_create_options():
+    return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
+                                                "Access-Control-Allow-Headers": "Content-Type",
+                                                "Content-type": "application/json",
+                                                "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/char_create', methods=['POST'])
+def char_create():
+    #data_to_parse = str(request.get_data())
+    data_to_parse = request.get_json()
+    print(request.get_data())
+    #data_to_parse = data_to_parse[2:-1]
+    #data_to_parse = json.loads(str(data_to_parse))
+    print(data_to_parse)
+    #data_to_parse = request.get_data()
+    #print(type(data_to_parse))
+    #print(data_to_parse)
+    #data_to_parse = data_to_parse[2:-1]
+    #myjson = json.loads(data_to_parse)
+    #payload = {'key1': 'value1', 'key2': 'value2'}
+    myjson = data_to_parse
+    #r = requests.get('localhost:6199/char_create', params=myjson)
+    msg = "OK"
+    code = 200
+    stat_msg = "OK"
+    return {"status": stat_msg, "msg": msg}, code, {"Access-Control-Allow-Origin": "*",
+                                                    "Access-Control-Allow-Headers": "Content-Type",
+                                                    "Content-type": "application/json",
+                                                    "Access-Control-Allow-Methods": "POST"}
 
 
 if __name__ == "__main__":

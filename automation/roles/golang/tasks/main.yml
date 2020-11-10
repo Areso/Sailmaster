@@ -36,11 +36,19 @@
   with_items:
     - 'export GOPATH=/usr/local/go/bin'
     - 'export PATH=$PATH:/usr/local/go/bin'
-    - 'export GOROOT=/usr/local/go'
+  #  - 'export GOROOT=/usr/local/go'
   become: True
   tags:
     - ensure_variables_in_profile
- 
+
+- name: ensure_godir_exists
+  file:
+    path: '/usr/local/go/bin'
+    state: directory
+    mode: '0755'
+  tags:
+    - ensure_godir_exists
+
 - name: install_go_dependecies
   shell: 'go env && go get github.com/go-sql-driver/mysql'
   environment:

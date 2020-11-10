@@ -6,7 +6,8 @@ For an example, on Ubuntu 18.04 type this:
 		sudo apt install ansible  
 Please, pay attention, to manage your localhost, your localhost must have sshd installed.  
 		sudo apt install openssh-server  
-Or, you could use local plays.
+Or, you could use local plays.  
+All playbooks tested only on Ubuntu 18.04 LTS.  
 ## Installation of Golang
 		ansible-playbook -i "localhost, " -k -K -e "pack_purge=True" -u "root" golang.yml  
 		ansible-playbook -K -e "pack_purge=True" local-golang.yml  

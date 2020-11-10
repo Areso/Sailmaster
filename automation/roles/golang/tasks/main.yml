@@ -28,3 +28,30 @@
   #when: ansible_version.full is version('2.8.0', '>=')
   tags:
     - install_go_snap
+
+- name: ensure_variables_in_profile
+  lineinfile:
+    path: /etc/profile
+    line: "{{ item }}"
+  with_items:
+    - 'export GOPATH=/usr/local/go/bin'
+    - 'export PATH=$PATH:/usr/local/go/bin'
+    - 'export GOROOT=/usr/local/go'
+  become: True
+  tags:
+    - ensure_variables_in_profile
+ 
+- name: install_go_dependecies
+  shell: 'go env && go get github.com/go-sql-driver/mysql'
+  environment:
+    #GOROOT: '/usr/local/go'
+    PATH: '{{ ansible_env.PATH }}:/snap/bin'
+    GOPATH: '/usr/local/go/bin'
+  register: cmd_result
+  become: True
+  tags:
+    - install_go_dependecies
+
+- name: debugging
+  debug:
+    msg: '{{ cmd_result }}'

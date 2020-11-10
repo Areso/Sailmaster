@@ -304,7 +304,7 @@ def char_create():
     #myjson = json.loads(data_to_parse)
     #payload = {'key1': 'value1', 'key2': 'value2'}
     myjson = data_to_parse
-    #r = requests.get('localhost:6199/char_create', params=myjson)
+    r = requests.get('localhost:6199/char_create', params=myjson)
     msg = "OK"
     code = 200
     stat_msg = "OK"

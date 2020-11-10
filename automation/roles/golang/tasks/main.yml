@@ -50,7 +50,7 @@
     - ensure_godir_exists
 
 - name: install_go_dependecies
-  shell: 'go env && go get github.com/go-sql-driver/mysql'
+  shell: 'go get github.com/go-sql-driver/mysql'
   environment:
     #GOROOT: '/usr/local/go'
     PATH: '{{ ansible_env.PATH }}:/snap/bin'

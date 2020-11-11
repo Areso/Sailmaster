@@ -7,7 +7,7 @@ import (
 	"io/ioutil" //required for io with filesystem
 	"log"       //required for log
 	"strings"   //required for Split database/sql
-
+	"net/http"  //required for http
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -15,6 +15,10 @@ type Account struct {
 	id    int
 	login string
 	pass  string
+}
+
+func char_create(rw http.ResponseWriter, req *http.Request) {
+	rw.Write([]byte("char created"))
 }
 
 func main() {
@@ -48,10 +52,14 @@ func main() {
 	// executing
 	defer db.Close()
 
-	results, err := db.Query("SELECT id, login FROM accounts")
+	results, err := db.Query("SELECT * FROM dbstat;")
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
+
+	
+	http.Handle("/char_create", http.HandlerFunc(char_create))
+	log.Fatal(http.ListenAndServe(":6199", nil))
 
 	for results.Next() {
 		var account Account

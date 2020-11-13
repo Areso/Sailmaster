@@ -1,3 +1,4 @@
 Flask>=1.0
 mysql-connector>=1.0
 Pika>=1.0
+requests>=2.0

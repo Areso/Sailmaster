@@ -25,9 +25,9 @@ type NewChar struct {
 	Avatar    int
 }
 
-type Person struct {
-    Name string
-    Age  int
+func create_new_char(new_char *NewChar) {
+	fmt.Println("try to create new char")
+	fmt.Println(new_char)
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {
@@ -35,6 +35,7 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 	err := decodeJSONBody(rw, req, &new_char)
     if err != nil {
         var mr *malformedRequest
+        log.Println(req)
         if errors.As(err, &mr) {
             http.Error(rw, mr.msg, mr.status)
         } else {
@@ -43,6 +44,7 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
         }
         return
     }
+    create_new_char(&new_char)
 	rw.Write([]byte("char created"))
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }

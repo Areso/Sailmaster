@@ -19,10 +19,15 @@ type Account struct {
 }
 
 type NewChar struct {
-	charname  string
-	race      int
-	avatar    int
-	gender    int
+	Charname string
+	Race      int
+	Gender    int
+	Avatar    int
+}
+
+type Person struct {
+    Name string
+    Age  int
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {

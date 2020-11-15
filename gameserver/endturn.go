@@ -49,6 +49,12 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }
 
+
+func game_heartbeat(rw http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(rw, "OK")
+}
+
+
 func db_check() {
 	config_auth_b, err := ioutil.ReadFile("config_auth.txt")
 	if err != nil {
@@ -97,6 +103,7 @@ func db_check() {
 func main() {
 	//http.Handle("/char_create", http.HandlerFunc(char_create))
 	http.HandleFunc("/char_create", char_create)
+	http.HandleFunc("/game_heartbeat", game_heartbeat)
 	log.Println("Starting server on port 6199")
 	log.Fatal(http.ListenAndServe(":6199", nil))
 	//fmt.Println(account.login)

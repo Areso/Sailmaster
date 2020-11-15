@@ -8,6 +8,7 @@ import (
 	"log"       //required for log
 	"strings"   //required for Split database/sql
 	"net/http"  //required for http
+	"errors"    //required for errors handling
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -17,12 +18,31 @@ type Account struct {
 	pass  string
 }
 
-func char_create(rw http.ResponseWriter, req *http.Request) {
-	rw.Write([]byte("char created"))
+type NewChar struct {
+	charname  string
+	race      int
+	avatar    int
+	gender    int
 }
 
-func main() {
-	log.Println("log.PrintLn test")
+func char_create(rw http.ResponseWriter, req *http.Request) {
+	var new_char NewChar
+	err := decodeJSONBody(rw, req, &new_char)
+    if err != nil {
+        var mr *malformedRequest
+        if errors.As(err, &mr) {
+            http.Error(rw, mr.msg, mr.status)
+        } else {
+            log.Println(err.Error())
+            http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+        }
+        return
+    }
+	rw.Write([]byte("char created"))
+	fmt.Fprintf(rw, "char: %+v", new_char)
+}
+
+func db_check() {
 	config_auth_b, err := ioutil.ReadFile("config_auth.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -56,11 +76,6 @@ func main() {
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
-
-	
-	http.Handle("/char_create", http.HandlerFunc(char_create))
-	log.Fatal(http.ListenAndServe(":6199", nil))
-
 	for results.Next() {
 		var account Account
 		// for each row, scan the result into our tag composite object
@@ -71,5 +86,11 @@ func main() {
 		//and then print out the tag's Name attribute
 		log.Printf(account.login)
 	}
+}
+func main() {
+	//http.Handle("/char_create", http.HandlerFunc(char_create))
+	http.HandleFunc("/char_create", char_create)
+	log.Println("Starting server on port 6199")
+	log.Fatal(http.ListenAndServe(":6199", nil))
 	//fmt.Println(account.login)
 }

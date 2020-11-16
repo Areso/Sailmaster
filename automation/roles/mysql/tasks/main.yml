@@ -1,6 +1,8 @@
 ---
 
-
+#don't use find, it doesn't allow to sort files
+#don't use fileglob, it doesn't work on remote hosts
+#don't use command, it is broken with pipe somehow
 - name: find_all_sql_instruction_sets
   shell: 'ls -v ../database/ | grep sql'
   register: sql_set
@@ -9,15 +11,33 @@
   set_fact:
     sql_set_file: '{{ sql_set.stdout_lines | sort }}'
 
-- name: print_sql_files
-  debug:
-    msg: '{{ sql_set_file }}'
+- name: replace_password_of_dbuser
+  replace:
+    path: ../database/1_users.sql
+    regexp: 'password'
+    replace: "{{ dbuserpass }}"
+  tags:
+    - replace_f
 
-- name: iterate_over_files
-  shell: 'cat ../database/{{ item }}'
-  with_items: '{{ sql_set_file }}'
-  register: file_contents
+- name: Always do X
+  block:
+    - name: iterate_over_files
+      shell: 'mysql -u root --password={{ dbpass }}  < ../database/{{ item }}'
+      with_items: '{{ sql_set_file }}'
+      become: True
+      register: file_contents
+
+  always:
+    - name: replace_password_to_placeholder
+      replace:
+        path: ../database/1_users.sql
+        regexp: '{{ dbuserpass }}'
+        replace: 'password'
+      tags:
+        - replace_f
 
 - name: d1
   debug:
     msg: '{{ file_contents }}'
+
+#mysql --user=XXX --password=XXXX --database=XXX < XXX.sql

@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `dictionary` (
   `id_word` smallint(6) NOT NULL,
   `id_race` smallint(6) NOT NULL,

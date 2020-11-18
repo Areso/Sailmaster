@@ -9,7 +9,7 @@
 
 - name: set_sql_set
   set_fact:
-    sql_set_file: '{{ sql_set.stdout_lines | sort }}'
+    sql_set_file: '{{ sql_set.stdout_lines }}'
 
 - name: replace_password_of_dbuser
   replace:

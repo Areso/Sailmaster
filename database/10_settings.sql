@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `settings` (
   `id_setting` smallint(6) NOT NULL,
   `setting_name` varchar(128) NOT NULL,

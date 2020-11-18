@@ -11,7 +11,7 @@ setInterval(checkStatuses,1000);
 function checkStatuses () {
   checkAuthServer();
   checkDBServer();
-  checkMQServer();
+  //checkMQServer();
 }
 function checkAuthServer() {
   var xhttp = new XMLHttpRequest();

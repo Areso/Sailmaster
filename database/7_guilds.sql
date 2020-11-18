@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `guilds` (
   `id_guild` smallint(6) NOT NULL,
   `id_owner` int(11) NOT NULL,

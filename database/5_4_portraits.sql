@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `portraits` (
   `id_portrait` smallint(6) NOT NULL,
   `id_race` smallint(6) NOT NULL,

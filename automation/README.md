@@ -22,7 +22,7 @@ chmod +x
 ## Installation of RabbitMQ
 		sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3-management  
 		sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3  
-## Database createion
+## Database creation
 		ansible-playbook -e "dbpass=mysqlrootpass" -e "dbuserpass=MyRealPass" -K local-mysql.yml
 ## Popular Anisble erorrs
 >fatal: [work]: FAILED! => {"changed": false, "module_stderr": "Shared connection to work closed.\r\n", 

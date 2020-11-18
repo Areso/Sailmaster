@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `ships` (
   `id_type_ship` smallint(6) NOT NULL,
   `id_race` smallint(6) NOT NULL,

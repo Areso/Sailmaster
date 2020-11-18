@@ -35,9 +35,3 @@
         replace: 'password'
       tags:
         - replace_f
-
-- name: d1
-  debug:
-    msg: '{{ file_contents }}'
-
-#mysql --user=XXX --password=XXXX --database=XXX < XXX.sql

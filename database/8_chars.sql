@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `chars` (
   `id_char` int(11) NOT NULL,
   `charname` varchar(24) NOT NULL,

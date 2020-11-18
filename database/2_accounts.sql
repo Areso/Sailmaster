@@ -1,3 +1,4 @@
+USE sailmaster;
 CREATE TABLE `accounts` (
   `id_acc` int(11) NOT NULL,
   `login` varchar(128) DEFAULT NULL,

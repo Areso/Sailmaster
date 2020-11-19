@@ -51,6 +51,7 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 
 
 func game_heartbeat(rw http.ResponseWriter, req *http.Request) {
+	db_check()
 	fmt.Fprintf(rw, "OK")
 }
 
@@ -90,14 +91,17 @@ func db_check() {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 	for results.Next() {
-		var account Account
+		//var account Account
+		var db_con string
 		// for each row, scan the result into our tag composite object
-		err = results.Scan(&account.id, &account.login)
+		//err = results.Scan(&account.id, &account.login)
+		err = results.Scan(&db_con)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
 		//and then print out the tag's Name attribute
-		log.Printf(account.login)
+		//log.Printf(account.login)
+		log.Printf(db_con)
 	}
 }
 func main() {

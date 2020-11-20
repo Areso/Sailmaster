@@ -27,36 +27,35 @@ type NewChar struct {
 
 func create_new_char(new_char *NewChar) {
 	fmt.Println("try to create new char")
+	//checks
 	fmt.Println(new_char)
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {
 	var new_char NewChar
 	err := decodeJSONBody(rw, req, &new_char)
-    if err != nil {
-        var mr *malformedRequest
-        log.Println(req)
-        if errors.As(err, &mr) {
-            http.Error(rw, mr.msg, mr.status)
-        } else {
-            log.Println(err.Error())
-            http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-        }
-        return
-    }
-    create_new_char(&new_char)
+	if err != nil {
+		var mr *malformedRequest
+		log.Println(req)
+		if errors.As(err, &mr) {
+			http.Error(rw, mr.msg, mr.status)
+		} else {
+			log.Println(err.Error())
+			http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+		return
+	}
+	create_new_char(&new_char)
 	rw.Write([]byte("char created"))
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }
-
 
 func game_heartbeat(rw http.ResponseWriter, req *http.Request) {
 	db_check()
 	fmt.Fprintf(rw, "OK")
 }
 
-
-func db_check() {
+func create_db_pool() *sql.DB {
 	config_auth_b, err := ioutil.ReadFile("config_auth.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -77,15 +76,17 @@ func db_check() {
 	connect_string = strings.Replace(connect_string, "%db", config_auth_a[2], 1)
 	fmt.Println(connect_string)
 	db, err := sql.Open("mysql", connect_string)
-
 	if err != nil {
 		fmt.Println("error connecting to db")
 		panic(err.Error())
 	}
-	// defer the close till after the main function has finished
-	// executing
-	defer db.Close()
+	return db
+}
 
+func db_check() {
+	var db *sql.DB
+	db = create_db_pool()
+	defer db.Close()
 	results, err := db.Query("SELECT * FROM dbstat;")
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app

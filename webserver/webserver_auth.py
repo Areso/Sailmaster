@@ -152,11 +152,21 @@ def mq_heartbeat():
                           "Access-Control-Allow-Methods": "POST"}
 
 
-@app.route('/api/v1.0/gameserver_heartbeat', methods=['GET', 'OPTIONS'])
+@app.route('/api/v1.0/game_heartbeat', methods=['GET', 'OPTIONS'])
 def gameserver_heartbeat():
-    return "gameserver is UP", 200, {"Access-Control-Allow-Origin": "*",
-                                     "Content-type": "application/json",
-                                     "Access-Control-Allow-Methods": "POST"}
+    gameserver_scheme = 'http'
+    code = 500
+    try:
+        r = requests.get(gameserver_scheme+'://localhost:6199/game_heartbeat')
+        code = 200
+        answer = "gameserver is UP"
+    except Exception as error:
+        print(error)
+        code = 500
+        answer = "gameserver is DOWN"
+    return answer, code, {"Access-Control-Allow-Origin": "*",
+                          "Content-type": "application/json",
+                          "Access-Control-Allow-Methods": "GET"}
 
 
 

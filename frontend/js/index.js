@@ -7,11 +7,12 @@ include = function (url, fn) {
   document.getElementsByTagName("head")[0].appendChild(e);
 };
 //main code
-setInterval(checkStatuses,1000);
+setInterval(checkStatuses,5000);
 function checkStatuses () {
   checkAuthServer();
   checkDBServer();
   //checkMQServer();
+  checkGameServer();
 }
 function checkAuthServer() {
   var xhttp = new XMLHttpRequest();
@@ -41,6 +42,21 @@ function checkDBServer() {
     }
   };
   xhttp.open("GET", "http://localhost:6689/api/v1.0/db_heartbeat", true);
+  xhttp.send();
+}
+function checkGameServer() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        back_response = this.responseText;
+        document.getElementById("lblGameServerValue").innerText = lblGameServerValue[0];
+      } else {
+        document.getElementById("lblGameServerValue").innerText = lblGameServerValue[1];
+      }
+    }
+  };
+  xhttp.open("GET", "http://localhost:6689/api/v1.0/game_heartbeat", true);
   xhttp.send();
 }
 function checkMQServer() {

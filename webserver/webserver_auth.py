@@ -84,7 +84,10 @@ class MyMQ:
             #print('No message returned')
             return 1
     def __del__(self):
-        self.connection.close()
+        try:
+            self.connection.close()
+        except Exception as error:
+            return 0
 
 
 def callback_test(ch, method, properties, body):
@@ -129,19 +132,25 @@ def db_heartbeat():
 
 @app.route('/api/v1.0/mq_heartbeat', methods=['GET', 'OPTIONS'])
 def mq_heartbeat():
+    code   = 500
+    answer ="mq server is DOWN"
     global testing
     if not testing:
-        mq_obj = MyMQ('localhost',5672,'guest','guest')
-        mq_obj.add_queue('','test')
-        mq_obj.publish('test', 'test message')
-        a = mq_obj.read('test')
-        print("mq response is ")
-        print(a)
-        print(type(a))
-        if a.decode('UTF-8')=='test message':
-            code   = 200
-            answer = "mq server is UP"
-        else:
+        try:
+            mq_obj = MyMQ('localhost',5672,'guest','guest')
+            mq_obj.add_queue('','test')
+            mq_obj.publish('test', 'test message')
+            a = mq_obj.read('test')
+            print("mq response is ")
+            print(a)
+            print(type(a))
+            if a.decode('UTF-8')=='test message':
+                code   = 200
+                answer = "mq server is UP"
+            else:
+                code   = 500
+                answer = "mq server is DOWN"
+        except Exception as error:
             code   = 500
             answer = "mq server is DOWN"
     else:

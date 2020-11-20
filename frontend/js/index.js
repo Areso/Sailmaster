@@ -11,7 +11,7 @@ setInterval(checkStatuses,5000);
 function checkStatuses () {
   checkAuthServer();
   checkDBServer();
-  //checkMQServer();
+  checkMQServer();
   checkGameServer();
 }
 function checkAuthServer() {

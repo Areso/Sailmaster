@@ -28,7 +28,36 @@ type NewChar struct {
 func create_new_char(new_char *NewChar) {
 	fmt.Println("try to create new char")
 	//checks
+	var db *sql.DB
+	db = create_db_pool()
+	defer db.Close()
+	results, err := db.Query("SELECT id_race FROM races;")
+	var races []int
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+	for results.Next() {
+		var race_id int
+		// for each row, scan the result into our tag composite object
+		//err = results.Scan(&account.id, &account.login)
+		err = results.Scan(&race_id)
+		races = append(races, race_id)
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+	}
+	printSlice(races)
+	//check race
+	//check gender
+	//get portraits
+	//check portrait
+	//check settings, whether it is allow to use a custom nickname or not
+	//check uniq of the nickname
 	fmt.Println(new_char)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {

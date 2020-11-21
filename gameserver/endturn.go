@@ -25,9 +25,10 @@ type NewChar struct {
 	Avatar    int
 }
 
-func create_new_char(new_char *NewChar) {
+func create_new_char(new_char *NewChar) bool {
 	fmt.Println("try to create new char")
 	//checks
+	//check race
 	var db *sql.DB
 	db = create_db_pool()
 	defer db.Close()
@@ -46,22 +47,46 @@ func create_new_char(new_char *NewChar) {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
 	}
+	var race_check bool
 	printSlice(races)
-	//check race
+	race_check = int_slice_contains(races, new_char.Race)
+	fmt.Println(race_check)
+	if race_check == false {
+		return false
+	}
 	//check gender
-	//get portraits
+	var gender_check bool
+	var genders []int
+	genders = append(genders, 0)
+	genders = append(genders, 1)
+	gender_check = int_slice_contains(genders, new_char.Gender)
+	if gender_check == false {
+		return false
+	}
+	fmt.Println(gender_check)
+	fmt.Println(new_char)
 	//check portrait
 	//check settings, whether it is allow to use a custom nickname or not
 	//check uniq of the nickname
-	fmt.Println(new_char)
+	return true
 }
 
+//HELPERS
 func printSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+func int_slice_contains(s []int, e int) bool {
+    for _, a := range s {
+        if a == e {
+            return true
+        }
+    }
+    return false
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {
 	var new_char NewChar
+	var char_create_res bool
 	err := decodeJSONBody(rw, req, &new_char)
 	if err != nil {
 		var mr *malformedRequest
@@ -74,8 +99,9 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-	create_new_char(&new_char)
-	rw.Write([]byte("char created"))
+	char_create_res = create_new_char(&new_char)
+	//rw.Write([]byte("char creation res %v"))
+	fmt.Fprintf(rw, "char creation res %v\n", char_create_res)
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }
 

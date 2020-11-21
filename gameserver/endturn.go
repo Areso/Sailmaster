@@ -22,12 +22,13 @@ type NewChar struct {
 	Charname string
 	Race      int
 	Gender    int
-	Avatar    int
+	Portrait  int
 }
 
 func create_new_char(new_char *NewChar) bool {
 	fmt.Println("try to create new char")
 	//checks
+	
 	//check race
 	var db *sql.DB
 	db = create_db_pool()
@@ -54,6 +55,7 @@ func create_new_char(new_char *NewChar) bool {
 	if race_check == false {
 		return false
 	}
+	
 	//check gender
 	var gender_check bool
 	var genders []int
@@ -65,7 +67,34 @@ func create_new_char(new_char *NewChar) bool {
 	}
 	fmt.Println(gender_check)
 	fmt.Println(new_char)
+	
 	//check portrait
+	db = create_db_pool()
+	defer db.Close()
+	port_query := `SELECT id_portrait FROM portraits 
+                   WHERE id_race = ? AND 
+                   gender = ? AND
+                   allowed_to_use = 1`
+	results, err = db.Query(port_query, new_char.Race, new_char.Gender)
+	var portraits []int
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+	for results.Next() {
+		var portrait_id int
+		err = results.Scan(&portrait_id)
+		portraits = append(portraits, portrait_id)
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+	}
+	var portrait_check bool
+	printSlice(portraits)
+	portrait_check = int_slice_contains(portraits, new_char.Portrait)
+	fmt.Println(portrait_check)
+	if portrait_check == false {
+		return false
+	}
 	//check settings, whether it is allow to use a custom nickname or not
 	//check uniq of the nickname
 	return true

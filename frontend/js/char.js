@@ -83,16 +83,18 @@ function nextImg() {
 }
 function createChar () {
   dataToParse={};
+  dataToParse.Charname = document.getElementById("inpCharname").value;
   var x = document.getElementById("selRace").selectedIndex;
   var y = document.getElementById("selRace").options;
-  dataToParse.race = y[x].value; //y[x].id, text, index, value
+  dataToParse.Race     = parseInt(y[x].value); //y[x].id, text, index, value
   var x = document.getElementById("selGender").selectedIndex;
   var y = document.getElementById("selGender").options;
-  dataToParse.gender = y[x].value; //y[x].id, text, index, value
-  dataToParse.avatar = resPortraits[currentImgIndex];
+  dataToParse.Gender   = parseInt(y[x].value); //y[x].id, text, index, value
+  dataToParse.Portrait = resPortraits[currentImgIndex];
+  //dataToParse.Token    = localStorage.getItem('sailmaster-token');
   console.log(dataToParse);
-  dataToParse={};
-  dataToParse.token = "token";
+  //dataToParse={};
+  //dataToParse.token = "token";
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {

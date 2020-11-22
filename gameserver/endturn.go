@@ -151,10 +151,13 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 	err := decodeJSONBody(rw, req, &new_char)
 	if err != nil {
 		var mr *malformedRequest
+		log.Println("ERROR")
 		log.Println(req)
 		if errors.As(err, &mr) {
+			log.Println("TRY TO RESCUE")
 			http.Error(rw, mr.msg, mr.status)
 		} else {
+			log.Println("ERROR COULDN'T BE RESCUED")
 			log.Println(err.Error())
 			http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		}
@@ -163,6 +166,35 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 	char_create_res = create_new_char(&new_char)
 	//rw.Write([]byte("char creation res %v"))
 	fmt.Fprintf(rw, "char creation res %v\n", char_create_res)
+	fmt.Fprintf(rw, "char: %+v", new_char)
+}
+
+type NewChar1 struct {
+	Charname string
+}
+
+func char_create1(rw http.ResponseWriter, req *http.Request) {
+	var new_char NewChar1
+	//var char_create_res bool
+	err := decodeJSONBody(rw, req, &new_char)
+	if err != nil {
+		var mr *malformedRequest
+		log.Println("ERROR")
+		log.Println(req)
+		if errors.As(err, &mr) {
+			log.Println("TRY TO RESCUE")
+			log.Println(err.Error())
+			http.Error(rw, mr.msg, mr.status)
+		} else {
+			log.Println("ERROR COULDN'T BE RESCUED")
+			log.Println(err.Error())
+			http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+		return
+	}
+	//char_create_res = create_new_char(&new_char)
+	//rw.Write([]byte("char creation res %v"))
+	//fmt.Fprintf(rw, "char creation res %v\n", char_create_res)
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }
 
@@ -224,6 +256,7 @@ func db_check() {
 func main() {
 	//http.Handle("/char_create", http.HandlerFunc(char_create))
 	http.HandleFunc("/char_create", char_create)
+	http.HandleFunc("/char_create1", char_create1)
 	http.HandleFunc("/game_heartbeat", game_heartbeat)
 	log.Println("Starting server on port 6199")
 	log.Fatal(http.ListenAndServe(":6199", nil))

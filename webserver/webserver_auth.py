@@ -312,19 +312,30 @@ def char_create_options():
 def char_create():
     #data_to_parse = str(request.get_data())
     data_to_parse = request.get_json()
-    print(request.get_data())
+    print(data_to_parse)
+    print(type(data_to_parse))
+    data_to_parse = str(data_to_parse)
+    data_to_parse = data_to_parse.replace("'", '"')
+    print(data_to_parse)
+    print(type(data_to_parse))
+    #print(request.get_data())
     #data_to_parse = data_to_parse[2:-1]
     #data_to_parse = json.loads(str(data_to_parse))
-    print(data_to_parse)
+    #data_to_parse = json.dumps(data_to_parse)
+    #print(data_to_parse.dumps)
     #data_to_parse = request.get_data()
     #print(type(data_to_parse))
     #print(data_to_parse)
     #data_to_parse = data_to_parse[2:-1]
     #myjson = json.loads(data_to_parse)
     #payload = {'key1': 'value1', 'key2': 'value2'}
-    myjson = data_to_parse
+    #data_to_parse = '{"Charname": "value1"}'
+    #myjson = {'Charname': 'value1', 'Race': 'value2', 'Gender': value3, 'Portrait': value4}
     gameserver_scheme = 'http'
-    r = requests.get(gameserver_scheme+'localhost:6199/char_create', params=myjson)
+    myheaders = {'Content-type': 'application/json'}
+    r = requests.post(gameserver_scheme+'://localhost:6199/char_create', headers=myheaders, data=data_to_parse)
+    print(r.text)
+    print(r.status_code)
     msg = "OK"
     code = 200
     stat_msg = "OK"

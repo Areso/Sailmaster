@@ -95,13 +95,45 @@ func create_new_char(new_char *NewChar) bool {
 	if portrait_check == false {
 		return false
 	}
+	
 	//check settings, whether it is allow to use a custom nickname or not
+	
 	//check uniq of the nickname
+	db = create_db_pool()
+	defer db.Close()
+	charname_query := `SELECT charname FROM chars
+                       WHERE charname = ?`
+	results, err = db.Query(charname_query, new_char.Charname)
+	var charnames []string
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+	for results.Next() {
+		var charname string
+		err = results.Scan(&charname)
+		charnames = append(charnames, charname)
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+	}
+	var charname_check bool
+	printStrSlice(charnames)
+	if len(charnames) == 0 {
+		charname_check = true
+	} else {
+		charname_check = false
+		return false
+	}
+	fmt.Println(charname_check)
+	
 	return true
 }
 
 //HELPERS
 func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+func printStrSlice(s []string) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 func int_slice_contains(s []int, e int) bool {

@@ -169,6 +169,32 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(rw, "char: %+v", new_char)
 }
 
+type Token struct {
+	Token string
+}
+
+func push_token(rw http.ResponseWriter, req *http.Request) {
+	var new_token Token
+	err := decodeJSONBody(rw, req, &new_token)
+	if err != nil {
+		var mr *malformedRequest
+		log.Println("ERROR")
+		log.Println(req)
+		if errors.As(err, &mr) {
+			log.Println("TRY TO RESCUE")
+			log.Println(err.Error())
+			http.Error(rw, mr.msg, mr.status)
+		} else {
+			log.Println("ERROR COULDN'T BE RESCUED")
+			log.Println(err.Error())
+			http.Error(rw, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+		return
+	}
+	//char_create_res = create_new_char(&new_char)
+	fmt.Fprintf(rw, "token: %+v", new_token)
+}
+
 type NewChar1 struct {
 	Charname string
 }
@@ -256,7 +282,7 @@ func db_check() {
 func main() {
 	//http.Handle("/char_create", http.HandlerFunc(char_create))
 	http.HandleFunc("/char_create", char_create)
-	http.HandleFunc("/char_create1", char_create1)
+	http.HandleFunc("/push_token", push_token)
 	http.HandleFunc("/game_heartbeat", game_heartbeat)
 	log.Println("Starting server on port 6199")
 	log.Fatal(http.ListenAndServe(":6199", nil))

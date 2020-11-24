@@ -323,16 +323,23 @@ def push_token():
     mycursor.execute('SELECT id_acc FROM accounts WHERE token = %(token)s;', 
                      {'token':token})
     myresult = mycursor.fetchall()
-    #print(mycursor._executed) #print
+    #print(mycursor._executed)
     if len(myresult) == 1:
         print("some res found")
         id_acc = myresult[0][0]
         accounts.append({token, id_acc})
+        #place acc id to tuple
         print(id_acc)
-    #place acc id to tuple
     gameserver_scheme = 'http'
     myheaders = {'Content-type': 'application/json'}
-    #r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
+    data_to_parse = {"Token": "token"}
+    data_to_parse = str(data_to_parse).replace("'", '"')
+    print("---")
+    print(type(data_to_parse))
+    print(data_to_parse)
+    r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
+    print(r.text)
+    print(r.status_code)
     return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
                                                 "Access-Control-Allow-Headers": "Content-Type",
                                                 "Content-type": "application/json",

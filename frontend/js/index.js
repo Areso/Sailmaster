@@ -7,12 +7,15 @@ include = function (url, fn) {
   document.getElementsByTagName("head")[0].appendChild(e);
 };
 //main code
-setInterval(checkStatuses,5000);
+healthchecker = setInterval(checkStatuses, 5000);
 function checkStatuses () {
   checkAuthServer();
   checkDBServer();
   checkMQServer();
   checkGameServer();
+}
+function disableHeartbeat() {
+  clearInterval(healthchecker);
 }
 function checkAuthServer() {
   var xhttp = new XMLHttpRequest();
@@ -85,7 +88,17 @@ function autoLogin () {
   }
 }
 function loginWithToken () {
-    window.location.href = "char.html";
+  dataToParse = localStorage.getItem('sailmaster-token');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      console.log("login with existing token");
+      //window.location.href = "char.html";
+    }
+  };
+  xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/push_token", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(dataToParse);
 }
 function createTempAcc () {
   resTempAcc    = null;
@@ -97,8 +110,8 @@ function createTempAcc () {
       accToken      = resTempAcc["token"];
       console.log(accToken);
       localStorage.setItem('sailmaster-token', accToken);
-      console.log("login with existing token");
-      loginWithToken();
+      console.log("login with newly acquired token");
+      window.location.href = "char.html";
     }
   };
   xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/account_create", true);

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import uuid
 import time
 import json
@@ -300,6 +301,44 @@ def get_portraits():
                                                           "Access-Control-Allow-Methods": "GET"}
 
 
+@app.route('/api/v1.0/push_token', methods=['OPTIONS'])
+def push_token_options():
+    return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
+                                                "Access-Control-Allow-Headers": "Content-Type",
+                                                "Content-type": "application/json",
+                                                "Access-Control-Allow-Methods": "POST"}
+
+
+@app.route('/api/v1.0/push_token', methods=['POST'])
+def push_token():
+    data_to_parse = request.get_data()
+    print(data_to_parse)
+    print(type(data_to_parse))
+    token         = data_to_parse.decode('utf-8')
+    print(token)
+    print(type(token))
+    #get acc id
+    global mydb
+    mycursor   = mydb.cursor()
+    mycursor.execute('SELECT id_acc FROM accounts WHERE token = %(token)s;', 
+                     {'token':token})
+    myresult = mycursor.fetchall()
+    #print(mycursor._executed) #print
+    if len(myresult) == 1:
+        print("some res found")
+        id_acc = myresult[0][0]
+        accounts.append({token, id_acc})
+        print(id_acc)
+    #place acc id to tuple
+    gameserver_scheme = 'http'
+    myheaders = {'Content-type': 'application/json'}
+    #r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
+    return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
+                                                "Access-Control-Allow-Headers": "Content-Type",
+                                                "Content-type": "application/json",
+                                                "Access-Control-Allow-Methods": "POST"}
+
+
 @app.route('/api/v1.0/char_create', methods=['OPTIONS'])
 def char_create_options():
     return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
@@ -318,19 +357,6 @@ def char_create():
     data_to_parse = data_to_parse.replace("'", '"')
     print(data_to_parse)
     print(type(data_to_parse))
-    #print(request.get_data())
-    #data_to_parse = data_to_parse[2:-1]
-    #data_to_parse = json.loads(str(data_to_parse))
-    #data_to_parse = json.dumps(data_to_parse)
-    #print(data_to_parse.dumps)
-    #data_to_parse = request.get_data()
-    #print(type(data_to_parse))
-    #print(data_to_parse)
-    #data_to_parse = data_to_parse[2:-1]
-    #myjson = json.loads(data_to_parse)
-    #payload = {'key1': 'value1', 'key2': 'value2'}
-    #data_to_parse = '{"Charname": "value1"}'
-    #myjson = {'Charname': 'value1', 'Race': 'value2', 'Gender': value3, 'Portrait': value4}
     gameserver_scheme = 'http'
     myheaders = {'Content-type': 'application/json'}
     r = requests.post(gameserver_scheme+'://localhost:6199/char_create', headers=myheaders, data=data_to_parse)
@@ -345,9 +371,28 @@ def char_create():
                                                     "Access-Control-Allow-Methods": "POST"}
 
 
+def update_startstop():
+    global mydb
+    mydb.ping(reconnect=True, attempts=1, delay=0)
+    mycursor  = mydb.cursor()
+    mycursor.execute("SELECT load_counter FROM startstop;")
+    myresult  = mycursor.fetchall()
+    if len(myresult) > 0:
+        cur_counter = myresult[0][0]
+        new_counter = cur_counter+1
+        mycursor.execute("""UPDATE startstop SET load_counter=%(new_counter)s
+                            WHERE id=1""",
+                            {'new_counter': new_counter})
+        mydb.commit()
+    else:
+        print("database startstop table is in incorrect state")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     mydb     = {}
     accounts = []
+    #accounts_online = []
     logger = logging.getLogger("logger")
     logger.setLevel(logging.INFO)
     fh = logging.FileHandler("auth.log")
@@ -355,11 +400,12 @@ if __name__ == "__main__":
     fh.setFormatter(formatter)
     logger.addHandler(fh)
     logger.info("auth server started")
-    global testing
+    global testing #TODO comment and delete this line
     testing = os.environ.get("sail_testing", False)
     logger.info(testing)
     if testing == False:
         myconfig = myloading()[0]
         opencon(myconfig)
+        update_startstop()
     app.debug = True
     app.run(host='0.0.0.0', port=6689)

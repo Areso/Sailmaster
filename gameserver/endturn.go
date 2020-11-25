@@ -144,6 +144,14 @@ func int_slice_contains(s []int, e int) bool {
     }
     return false
 }
+func str_slice_contains(s []string, e string) bool {
+    for _, a := range s {
+        if a == e {
+            return true
+        }
+    }
+    return false
+}
 
 func char_create(rw http.ResponseWriter, req *http.Request) {
 	var new_char NewChar

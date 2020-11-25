@@ -236,7 +236,7 @@ def account_create():
         code      = 500
         stat_msg  = "couldn't reserve a new token for a newly created account. acc creation is aborted"
     if code == 200:
-        accounts.append({token, id_acc})
+        accounts.append([token, id_acc])
     print("creation account stat is "+stat_msg)
     print(accounts)
     return {"status": stat_msg, "token": token}, code, {"Access-Control-Allow-Origin": "*",
@@ -327,12 +327,19 @@ def push_token():
     if len(myresult) == 1:
         print("some res found")
         id_acc = myresult[0][0]
-        accounts.append({token, id_acc})
+        accounts.append([id_acc, token])
         #place acc id to tuple
         print(id_acc)
+    print(type(accounts))
+    print((accounts))
+    print(type(token))
+    print((token))
+    the_pair = find_tuple(accounts, token)
     gameserver_scheme = 'http'
     myheaders = {'Content-type': 'application/json'}
-    data_to_parse = {"Token": "token"}
+    print(type(the_pair))
+    print(the_pair)
+    data_to_parse = {"Token": token, "Account": the_pair[0]}
     data_to_parse = str(data_to_parse).replace("'", '"')
     print("---")
     print(type(data_to_parse))

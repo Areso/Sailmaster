@@ -171,6 +171,7 @@ func char_create(rw http.ResponseWriter, req *http.Request) {
 
 type Token struct {
 	Token string
+	Account int
 }
 
 func push_token(rw http.ResponseWriter, req *http.Request) {

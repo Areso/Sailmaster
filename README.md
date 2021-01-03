@@ -31,3 +31,16 @@ While all fractions are playable, a player of any race could become a renegade o
 The source code and the documentation is licensed under Apahce License 2.0 for now  
 All assets, including graphic, sound, animation are under a proprietary license  
 Author is Gladyshev Anton, 2020  
+
+## RUNNING
+Install mysql  
+Create user, database  
+Install RabbitMQ
+        sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3-management  
+Run RabbitMQ
+        docker start rabbitmq1  
+Run webserver
+        webserver$ python3 webserver_auth.py  
+Compile and Run gameserver
+        gameserver$ go build  
+        gameserver$ ./gameserver  

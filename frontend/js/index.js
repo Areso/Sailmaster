@@ -8,6 +8,7 @@ include = function (url, fn) {
 };
 //main code
 healthchecker = setInterval(checkStatuses, 5000);
+healthcheckerStat = 1;
 function checkStatuses () {
   checkAuthServer();
   checkDBServer();
@@ -15,7 +16,15 @@ function checkStatuses () {
   checkGameServer();
 }
 function disableHeartbeat() {
-  clearInterval(healthchecker);
+  if (healthcheckerStat===1){
+    clearInterval(healthchecker);
+    document.getElementById("mmenuDisableHealth").innerText  = mmenuDisableHealthDisabled;
+    healthcheckerStat = 0;
+  } else {
+    healthchecker = setInterval(checkStatuses, 5000);
+    document.getElementById("mmenuDisableHealth").innerText  = pageLogin.mmenuDisableHealth;
+    healthcheckerStat = 1;
+  }
 }
 function checkAuthServer() {
   var xhttp = new XMLHttpRequest();

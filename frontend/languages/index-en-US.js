@@ -1,6 +1,8 @@
 var pageLogin = {};
 pageLogin.mmenuBtnPlay  = "Play game";
 pageLogin.mmenuBtnLogin = "Login with an existing account";
+pageLogin.mmenuDisableHealth = "Disable heartbeat";
+mmenuDisableHealthDisabled = "Enable heartbeat";
 pageLogin.lblAuthServer = "Auth server:";
 lblAuthServerValue[-1] = "no data";
 lblAuthServerValue[0] = "UP";

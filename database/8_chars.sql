@@ -18,7 +18,6 @@ CREATE TABLE `chars` (
   `loc_y` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
-
 ALTER TABLE `chars`
   ADD PRIMARY KEY (`id_char`),
   ADD UNIQUE KEY `charname` (`charname`),
@@ -27,3 +26,7 @@ ALTER TABLE `chars`
   ADD CONSTRAINT `char_portrait_id` FOREIGN KEY (`id_portrait`) REFERENCES `portraits` (`id_portrait`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `char_type_ship_id` FOREIGN KEY (`id_type_ship`) REFERENCES `ships` (`id_type_ship`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `char_guild_id` FOREIGN KEY (`id_guild`) REFERENCES `guilds` (`id_guild`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+
+ALTER TABLE `chars`
+  MODIFY `id_char` int(11) NOT NULL AUTO_INCREMENT;

@@ -91,10 +91,8 @@ function createChar () {
   var y = document.getElementById("selGender").options;
   dataToParse.Gender   = parseInt(y[x].value); //y[x].id, text, index, value
   dataToParse.Portrait = resPortraits[currentImgIndex];
-  //dataToParse.Token    = localStorage.getItem('sailmaster-token');
+  dataToParse.Token    = localStorage.getItem('sailmaster-token');
   console.log(dataToParse);
-  //dataToParse={};
-  //dataToParse.token = "token";
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {

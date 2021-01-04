@@ -37,10 +37,10 @@ Install mysql
 Create user, database  
 Install RabbitMQ
         sudo docker run -d --hostname rabbitmq1 --name rabbitmq1 -p 5672:5672 -p 15672:15672 rabbitmq:3-management  
-Run RabbitMQ
+Run RabbitMQ  
         docker start rabbitmq1  
-Run webserver
+Run webserver  
         webserver$ python3 webserver_auth.py  
-Compile and Run gameserver
+Compile and Run gameserver  
         gameserver$ go build  
         gameserver$ ./gameserver  

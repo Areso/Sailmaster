@@ -330,27 +330,35 @@ def push_token():
         accounts.append([id_acc, token])
         #place acc id to tuple
         print(id_acc)
-    print(type(accounts))
-    print((accounts))
-    print(type(token))
-    print((token))
-    the_pair = find_tuple(accounts, token)
-    gameserver_scheme = 'http'
-    myheaders = {'Content-type': 'application/json'}
-    print(type(the_pair))
-    print(the_pair)
-    data_to_parse = {"Token": token, "Account": the_pair[0]}
-    data_to_parse = str(data_to_parse).replace("'", '"')
-    print("---")
-    print(type(data_to_parse))
-    print(data_to_parse)
-    r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
-    print(r.text)
-    print(r.status_code)
-    return {"status": "OK", "msg": "OK"}, 200, {"Access-Control-Allow-Origin": "*",
-                                                "Access-Control-Allow-Headers": "Content-Type",
-                                                "Content-type": "application/json",
-                                                "Access-Control-Allow-Methods": "POST"}
+        print(type(accounts))
+        print((accounts))
+        print(type(token))
+        print((token))
+        the_pair = find_tuple(accounts, token)
+        gameserver_scheme = 'http'
+        myheaders = {'Content-type': 'application/json'}
+        print(type(the_pair))
+        print(the_pair)
+        data_to_parse = {"Token": token, "Account": the_pair[0]}
+        data_to_parse = str(data_to_parse).replace("'", '"')
+        print("---")
+        print(type(data_to_parse))
+        print(data_to_parse)
+        r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
+        print(r.text)
+        print(r.status_code)
+        status = "OK"
+        msg = "OK"
+        code = 200
+    else:
+        status = "no account found"
+        msg = "clear cache and re-register"
+        code = 501
+        print("no account found")
+    return {"status": status, "msg": msg}, code, {"Access-Control-Allow-Origin": "*",
+                                                  "Access-Control-Allow-Headers": "Content-Type",
+                                                  "Content-type": "application/json",
+                                                  "Access-Control-Allow-Methods": "POST"}
 
 
 @app.route('/api/v1.0/char_create', methods=['OPTIONS'])
@@ -364,7 +372,10 @@ def char_create_options():
 @app.route('/api/v1.0/char_create', methods=['POST'])
 def char_create():
     #data_to_parse = str(request.get_data())
-    data_to_parse = request.get_json()
+    data_to_parse  = request.get_json()
+    client_token   = data_to_parse.token
+    client_account = find_tuple(accounts, token)
+    print("client account is {}".format(str(client_account)))
     print(data_to_parse)
     print(type(data_to_parse))
     data_to_parse = str(data_to_parse)

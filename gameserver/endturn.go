@@ -28,7 +28,6 @@ type NewChar struct {
 func create_new_char(new_char *NewChar) bool {
 	fmt.Println("try to create new char")
 	//checks
-	
 	//check race
 	var db *sql.DB
 	db = create_db_pool()
@@ -49,7 +48,7 @@ func create_new_char(new_char *NewChar) bool {
 		}
 	}
 	var race_check bool
-	printSlice(races)
+	printIntSlice(races)
 	race_check = int_slice_contains(races, new_char.Race)
 	fmt.Println(race_check)
 	if race_check == false {
@@ -67,7 +66,7 @@ func create_new_char(new_char *NewChar) bool {
 	}
 	fmt.Println(gender_check)
 	fmt.Println(new_char)
-	
+
 	//check portrait
 	db = create_db_pool()
 	defer db.Close()
@@ -89,7 +88,7 @@ func create_new_char(new_char *NewChar) bool {
 		}
 	}
 	var portrait_check bool
-	printSlice(portraits)
+	printIntSlice(portraits)
 	portrait_check = int_slice_contains(portraits, new_char.Portrait)
 	fmt.Println(portrait_check)
 	if portrait_check == false {
@@ -125,12 +124,18 @@ func create_new_char(new_char *NewChar) bool {
 		return false
 	}
 	fmt.Println(charname_check)
-	
+
+	//write new character to database
+	db = create_db_pool()
+	defer db.Close()
+	charname_query := `SELECT charname FROM chars
+                       WHERE charname = ?`
+	results, err = db.Query(charname_query, new_char.Charname)
 	return true
 }
 
 //HELPERS
-func printSlice(s []int) {
+func printIntSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 func printStrSlice(s []string) {

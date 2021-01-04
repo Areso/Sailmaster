@@ -102,7 +102,10 @@ function loginWithToken () {
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
       console.log("login with existing token");
-      //window.location.href = "char.html";
+      window.location.href = "char.html";
+    }
+    if (this.readyState === 4 && this.status === 501) {
+      createTempAcc()
     }
   };
   xhttp.open("POST", "http://mydiod.ga:6689/api/v1.0/push_token", true);

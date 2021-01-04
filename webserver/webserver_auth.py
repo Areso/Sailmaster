@@ -312,11 +312,7 @@ def push_token_options():
 @app.route('/api/v1.0/push_token', methods=['POST'])
 def push_token():
     data_to_parse = request.get_data()
-    print(data_to_parse)
-    print(type(data_to_parse))
     token         = data_to_parse.decode('utf-8')
-    print(token)
-    print(type(token))
     #get acc id
     global mydb
     mycursor   = mydb.cursor()
@@ -325,28 +321,15 @@ def push_token():
     myresult = mycursor.fetchall()
     #print(mycursor._executed)
     if len(myresult) == 1:
-        print("some res found")
         id_acc = myresult[0][0]
         accounts.append([id_acc, token])
         #place acc id to tuple
-        print(id_acc)
-        print(type(accounts))
-        print((accounts))
-        print(type(token))
-        print((token))
         the_pair = find_tuple(accounts, token)
         gameserver_scheme = 'http'
         myheaders = {'Content-type': 'application/json'}
-        print(type(the_pair))
-        print(the_pair)
         data_to_parse = {"Token": token, "Account": the_pair[0]}
         data_to_parse = str(data_to_parse).replace("'", '"')
-        print("---")
-        print(type(data_to_parse))
-        print(data_to_parse)
         r = requests.post(gameserver_scheme+'://localhost:6199/push_token', headers=myheaders, data=data_to_parse)
-        print(r.text)
-        print(r.status_code)
         status = "OK"
         msg = "OK"
         code = 200
@@ -373,23 +356,28 @@ def char_create_options():
 def char_create():
     #data_to_parse = str(request.get_data())
     data_to_parse  = request.get_json()
-    client_token   = data_to_parse.token
-    client_account = find_tuple(accounts, token)
-    print("client account is {}".format(str(client_account)))
-    print(data_to_parse)
-    print(type(data_to_parse))
-    data_to_parse = str(data_to_parse)
-    data_to_parse = data_to_parse.replace("'", '"')
-    print(data_to_parse)
-    print(type(data_to_parse))
-    gameserver_scheme = 'http'
-    myheaders = {'Content-type': 'application/json'}
-    r = requests.post(gameserver_scheme+'://localhost:6199/char_create', headers=myheaders, data=data_to_parse)
-    print(r.text)
-    print(r.status_code)
-    msg = "OK"
-    code = 200
-    stat_msg = "OK"
+    client_token   = data_to_parse["Token"]
+    client_account = find_tuple(accounts, client_token)
+    if client_account is not None:
+        data_to_parse = str(data_to_parse)
+        data_to_parse = data_to_parse.replace("'", '"')
+        gameserver_scheme = 'http'
+        myheaders = {'Content-type': 'application/json'}
+        r = requests.post(gameserver_scheme+'://localhost:6199/char_create', headers=myheaders, data=data_to_parse)
+        #print(r.text)
+        #print(r.status_code)
+        if r.status_code == 200:
+            msg = "OK"
+            code = 200
+            stat_msg = "OK"
+        else:
+            msg = "Failed on Gameserver side"
+            code = 501
+            stat_msg = "Failed"
+    else:
+        msg = "Account is not online"
+        code = 501
+        stat_msg = "Failed"
     return {"status": stat_msg, "msg": msg}, code, {"Access-Control-Allow-Origin": "*",
                                                     "Access-Control-Allow-Headers": "Content-Type",
                                                     "Content-type": "application/json",

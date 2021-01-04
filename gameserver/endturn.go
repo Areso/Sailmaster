@@ -23,6 +23,7 @@ type NewChar struct {
 	Race      int
 	Gender    int
 	Portrait  int
+	Token string
 }
 
 func create_new_char(new_char *NewChar) bool {
@@ -128,9 +129,9 @@ func create_new_char(new_char *NewChar) bool {
 	//write new character to database
 	db = create_db_pool()
 	defer db.Close()
-	charname_query := `SELECT charname FROM chars
-                       WHERE charname = ?`
-	results, err = db.Query(charname_query, new_char.Charname)
+	//charname_query := `SELECT charname FROM chars
+     //                   WHERE charname = ?`
+	//results, err = db.Query(charname_query, new_char.Charname)
 	return true
 }
 

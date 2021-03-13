@@ -359,6 +359,8 @@ def char_create():
     client_token   = data_to_parse["Token"]
     client_account = find_tuple(accounts, client_token)
     if client_account is not None:
+        print("client account id is {}".format(str(client_account[0])))
+        data_to_parse["Acc_id"] = client_account[0]
         data_to_parse = str(data_to_parse)
         data_to_parse = data_to_parse.replace("'", '"')
         gameserver_scheme = 'http'

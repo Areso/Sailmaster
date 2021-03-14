@@ -25,13 +25,13 @@ jobs:
     - name: print go version
       run: go version
 
-    - name: try to remove gitconfig
-      run: rm /home/runner/work/Sailmaster/Sailmaster/.git/config
+#    - name: try to remove gitconfig
+#      run: rm /home/runner/work/Sailmaster/Sailmaster/.git/config
 
     - name: Get dependencies
       working-directory: ./gameserver
       run: |
-        GO111MODULE=on go get -v -t -d ./...
+        go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure

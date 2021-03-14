@@ -23,7 +23,6 @@ type NewChar struct {
 	Race      int
 	Gender    int
 	Portrait  int
-	Acc_id    int
 	Token string
 }
 
@@ -130,17 +129,9 @@ func create_new_char(new_char *NewChar) bool {
 	//write new character to database
 	db = create_db_pool()
 	defer db.Close()
-	new_char_query := `INSERT INTO chars (charname, gender, id_acc, 
-					   id_race, id_portrait, tutorial, in_city, 
-					   money, loc_x, loc_y) VALUES 
-	                   (?, ?, ?, ?, ?, 0, 1, 0, 0, 0);`
-    results, err = db.Query(new_char_query, new_char.Charname,
-							new_char.Acc_id, new_char.Gender, 
-							new_char.Race, new_char.Portrait)
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-	fmt.Println(results)
+	//charname_query := `SELECT charname FROM chars
+     //                   WHERE charname = ?`
+	//results, err = db.Query(charname_query, new_char.Charname)
 	return true
 }
 
@@ -152,20 +143,20 @@ func printStrSlice(s []string) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 func int_slice_contains(s []int, e int) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
+    for _, a := range s {
+        if a == e {
+            return true
+        }
+    }
+    return false
 }
 func str_slice_contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
+    for _, a := range s {
+        if a == e {
+            return true
+        }
+    }
+    return false
 }
 
 func char_create(rw http.ResponseWriter, req *http.Request) {

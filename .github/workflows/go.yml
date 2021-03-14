@@ -21,6 +21,9 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
+    - name: try to remove gitconfig
+      run: rm /home/runner/work/Sailmaster/Sailmaster/.git/config
+
     - name: Get dependencies
       working-directory: ./gameserver
       run: |

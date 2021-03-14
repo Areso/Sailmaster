@@ -32,9 +32,29 @@ function getPortraits () {
   xhttp.open("GET", queryPortraits, true);
   xhttp.send();
 }
+getExistingChars();
 getRaces();
 currentImgIndex = 0;
 maxImgIndex = 0;
+function getExistingCharsRq () {
+  token    = localStorage.getItem('sailmaster-token');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      chars    = JSON.parse(this.responseText);
+      chars_msg= chars["msg"];
+      console.log(char);
+      getExistingChars();
+    }
+  };
+  xhttp.open("GET", "http://mydiod.ga:6689/api/v1.0/get_chars", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.setRequestHeader("token", token);
+  xhttp.send(payload);
+};
+function getExistingChars() {
+	//
+}
 function getRaces() {
   resRaces      = null;
   var xhttp = new XMLHttpRequest();
@@ -118,3 +138,4 @@ function localeCallback(returnLanguage) {
     }
   }
 }
+

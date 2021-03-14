@@ -130,21 +130,16 @@ func create_new_char(new_char *NewChar) bool {
 	//write new character to database
 	db = create_db_pool()
 	defer db.Close()
-	//VALUES ('test02', '1', '1', '1001', '0', '1', '0','0', '0');
 	new_char_query := `INSERT INTO chars (charname, gender, id_acc, 
 					   id_race, id_portrait, tutorial, in_city, 
 					   money, loc_x, loc_y) VALUES 
 	                   (?, ?, ?, ?, ?, 0, 1, 0, 0, 0);`
-    /*
-     * 	Charname string
-	Race      int
-	Gender    int
-	Portrait  int
-	Acc_id    int
-	Token string*/
     results, err = db.Query(new_char_query, new_char.Charname,
 							new_char.Acc_id, new_char.Gender, 
 							new_char.Race, new_char.Portrait)
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
 	fmt.Println(results)
 	return true
 }

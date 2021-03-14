@@ -273,6 +273,40 @@ def get_races():
                                                       "Access-Control-Allow-Methods": "GET"}
 
 
+@app.route('/api/v1.0/get_chars', methods=['GET', 'OPTIONS'])
+def get_races():
+	code     = 500
+    stat_msg = "failed to get races"
+    msg      = ""
+    client_token    = request.headers.get('token')
+    client_account = find_tuple(accounts, client_token)
+    if client_account is not None:
+        print("client account id is {}".format(str(client_account[0])))
+        global mydb
+		mydb.ping(reconnect=True, attempts=1, delay=0)
+		mycursor  = mydb.cursor()
+		mycursor.execute('SELECT id_race FROM races;')
+		myresult  = mycursor.fetchall()
+		races = []
+		if len(myresult) > 0:
+			for x in myresult:
+				races.append(x[0])
+			code = 200
+			stat_msg = "OK"
+			print(races)
+        else:
+            msg = "Failed on Gameserver side"
+            code = 501
+            stat_msg = "Failed"
+    else:
+        msg = "Account is not online"
+        code = 501
+        stat_msg = "Failed"
+	return {"status": stat_msg, "msg": msg}, code, {"Access-Control-Allow-Origin": "*",
+                                                    "Content-type": "application/json",
+                                                    "Access-Control-Allow-Methods": "GET"}
+
+
 @app.route('/api/v1.0/get_portraits', methods=['GET', 'OPTIONS'])
 def get_portraits():
     code     = 500

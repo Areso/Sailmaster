@@ -21,6 +21,10 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
+    - name: Go mod init
+      working-directory: ./gameserver
+      run: go mod init
+
     - name: Get dependencies
       working-directory: ./gameserver
       run: |

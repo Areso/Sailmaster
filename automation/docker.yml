@@ -1,6 +1,7 @@
 ---
 - hosts: all
   gather_facts: True
+  remote_user: root
   roles:
     - role: docker
       vars:

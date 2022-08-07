@@ -31,7 +31,7 @@
 - name: install_docker_cert
   shell: 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
   become: True
-  warn: False
+  #warn: False
   tags:
     - docker_cert
 

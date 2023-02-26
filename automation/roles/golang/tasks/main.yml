@@ -46,19 +46,20 @@
     path: '/usr/local/go/bin'
     state: directory
     mode: '0755'
+  become: True
   tags:
     - ensure_godir_exists
 
-- name: install_go_dependecies
-  shell: 'go get github.com/go-sql-driver/mysql'
-  environment:
-    #GOROOT: '/usr/local/go'
-    PATH: '{{ ansible_env.PATH }}:/snap/bin'
-    GOPATH: '/usr/local/go/bin'
-  register: cmd_result
-  become: True
-  tags:
-    - install_go_dependecies
+#- name: install_go_dependecies
+#  shell: 'go install github.com/go-sql-driver/mysql@latest'
+#  environment:
+#    #GOROOT: '/usr/local/go'
+#    PATH: '{{ ansible_env.PATH }}:/snap/bin'
+#    GOPATH: '/usr/local/go/bin'
+#  register: cmd_result
+#  become: True
+#  tags:
+#    - install_go_dependecies
 
 - name: debugging
   debug:

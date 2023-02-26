@@ -242,7 +242,7 @@ func char_create1(rw http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-	//char_create_res = create_new_char(&new_char)
+	char_create_res = create_new_char(&new_char)
 	//rw.Write([]byte("char creation res %v"))
 	//fmt.Fprintf(rw, "char creation res %v\n", char_create_res)
 	fmt.Fprintf(rw, "char: %+v", new_char)

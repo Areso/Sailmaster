@@ -2,7 +2,7 @@
 
 - name: uninstall_docker_from_distrib_repo
   package:
-    name: 
+    name:
       - docker
       - docker-engine
       - docker.io
@@ -11,7 +11,7 @@
     state: absent
   become: True
   when: pack_purge == "True"
-  tags: 
+  tags:
     - purge_docker
     - purge
 
@@ -40,7 +40,7 @@
     add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) \
-    stable"
+    stable" -y
   become: True
   tags:
     - docker_repo

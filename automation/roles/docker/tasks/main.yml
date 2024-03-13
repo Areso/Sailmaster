@@ -15,6 +15,15 @@
     - purge_docker
     - purge
 
+- name: show_target_OS_family
+  debug:
+    msg: "{{ ansible_distribution }}"
+
+- name: update_info_about_packages_versions
+  shell: "apt update"
+  become: True
+  when: ansible_distribution == "Ubuntu"
+
 - name: install_dependencies
   package:
     name:
@@ -51,7 +60,8 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-    state: present
+    #state: present
+    state: latest
   become: True
   tags:
     - docker_install
